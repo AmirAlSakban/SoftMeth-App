@@ -20,7 +20,6 @@ A unified full-stack application combining Spring Boot backend and Flutter front
 ├── start-app.bat     # Quick start script
 ├── test-api-comprehensive.bat # API testing script
 ├── .gitignore        # Git ignore rules
-├── LICENSE           # MIT License
 └── package.json      # Project metadata
 ```
 
@@ -208,6 +207,6 @@ flutter build ios  # for iOS (requires macOS)
 - **start-app.bat** - Quick start script to launch both backend and frontend
 - **test-api-comprehensive.bat** - Automated API testing script
 
-## License
+## Disclaimer
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This is a school project created for educational purposes only.

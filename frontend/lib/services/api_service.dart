@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:tutorial_management_app/models/tutorial.dart';
 
 class ApiService {
-  static const String baseUrl = "http://localhost:8080/api"; // Spring Boot default port
+  static const String baseUrl = "http://192.168.1.210:8080/api"; // For testing with Android device
   static const String tutorialsEndpoint = "$baseUrl/tutorials";
 
   // Get all tutorials

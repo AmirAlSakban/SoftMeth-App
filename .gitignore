@@ -5,6 +5,19 @@
 .DS_Store
 Thumbs.db
 
+# Documentation files (except README.md)
+*.md
+!README.md
+!backend/README.md
+!frontend/README.md
+*.txt
+*.docx
+*.doc
+*.pdf
+*.rst
+*.asciidoc
+*.adoc
+
 # Backend (Spring Boot / Maven)
 backend/target/
 backend/bin/ # Add bin directory if it exists

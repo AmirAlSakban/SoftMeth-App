@@ -1,0 +1,408 @@
+import 'package:flutter/material.dart';
+import '../models/tutorial.dart';
+import '../services/api_service.dart';
+
+class AddTutorialScreen extends StatefulWidget {
+  const AddTutorialScreen({Key? key}) : super(key: key);
+
+  @override
+  State<AddTutorialScreen> createState() => _AddTutorialScreenState();
+}
+
+class _AddTutorialScreenState extends State<AddTutorialScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _titleController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _categoryController = TextEditingController();
+  final _authorController = TextEditingController();
+  final _difficultyController = TextEditingController();
+  final _durationController = TextEditingController();
+  final _imageUrlController = TextEditingController();
+  final _videoUrlController = TextEditingController();
+  
+  bool _isPublished = false;
+  bool _isFeatured = false;
+  bool _isLoading = false;
+
+  final List<String> _difficulties = ['Beginner', 'Intermediate', 'Advanced'];
+  String _selectedDifficulty = 'Beginner';
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _descriptionController.dispose();
+    _categoryController.dispose();
+    _authorController.dispose();
+    _difficultyController.dispose();
+    _durationController.dispose();
+    _imageUrlController.dispose();
+    _videoUrlController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _saveTutorial() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final tutorial = Tutorial(
+        id: 0, // Will be assigned by backend
+        title: _titleController.text.trim(),
+        description: _descriptionController.text.trim(),
+        category: _categoryController.text.trim(),
+        author: _authorController.text.trim(),
+        difficultyLevel: _selectedDifficulty,
+        durationMinutes: int.tryParse(_durationController.text) ?? 0,
+        published: _isPublished,
+        featured: _isFeatured,
+        imageUrl: _imageUrlController.text.trim().isEmpty ? null : _imageUrlController.text.trim(),
+        videoUrl: _videoUrlController.text.trim().isEmpty ? null : _videoUrlController.text.trim(),
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
+
+      final createdTutorial = await ApiService.createTutorial(tutorial);
+      
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Tutorial created successfully!'),
+            backgroundColor: Colors.green,
+          ),
+        );
+        Navigator.of(context).pop(createdTutorial);
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to create tutorial: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Add New Tutorial'),
+        backgroundColor: Colors.blue[600],
+        foregroundColor: Colors.white,
+        actions: [
+          if (_isLoading)
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: Colors.white,
+                ),
+              ),
+            )
+          else
+            TextButton(
+              onPressed: _saveTutorial,
+              child: const Text(
+                'SAVE',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+        ],
+      ),
+      body: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Basic Information',
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue[700],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _titleController,
+                        decoration: const InputDecoration(
+                          labelText: 'Title *',
+                          border: OutlineInputBorder(),
+                          prefixIcon: Icon(Icons.title),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Title is required';
+                          }
+                          if (value.trim().length < 3) {
+                            return 'Title must be at least 3 characters';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _descriptionController,
+                        decoration: const InputDecoration(
+                          labelText: 'Description *',
+                          border: OutlineInputBorder(),
+                          prefixIcon: Icon(Icons.description),
+                        ),
+                        maxLines: 3,
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Description is required';
+                          }
+                          if (value.trim().length < 10) {
+                            return 'Description must be at least 10 characters';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              controller: _categoryController,
+                              decoration: const InputDecoration(
+                                labelText: 'Category *',
+                                border: OutlineInputBorder(),
+                                prefixIcon: Icon(Icons.category),
+                              ),
+                              validator: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return 'Category is required';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: TextFormField(
+                              controller: _authorController,
+                              decoration: const InputDecoration(
+                                labelText: 'Author *',
+                                border: OutlineInputBorder(),
+                                prefixIcon: Icon(Icons.person),
+                              ),
+                              validator: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return 'Author is required';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Tutorial Details',
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue[700],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: DropdownButtonFormField<String>(
+                              value: _selectedDifficulty,
+                              decoration: const InputDecoration(
+                                labelText: 'Difficulty Level',
+                                border: OutlineInputBorder(),
+                                prefixIcon: Icon(Icons.signal_cellular_alt),
+                              ),
+                              items: _difficulties.map((difficulty) {
+                                return DropdownMenuItem(
+                                  value: difficulty,
+                                  child: Text(difficulty),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  _selectedDifficulty = value!;
+                                });
+                              },
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: TextFormField(
+                              controller: _durationController,
+                              decoration: const InputDecoration(
+                                labelText: 'Duration (minutes)',
+                                border: OutlineInputBorder(),
+                                prefixIcon: Icon(Icons.timer),
+                              ),
+                              keyboardType: TextInputType.number,
+                              validator: (value) {
+                                if (value != null && value.isNotEmpty) {
+                                  final duration = int.tryParse(value);
+                                  if (duration == null || duration <= 0) {
+                                    return 'Enter a valid duration';
+                                  }
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _imageUrlController,
+                        decoration: const InputDecoration(
+                          labelText: 'Image URL (optional)',
+                          border: OutlineInputBorder(),
+                          prefixIcon: Icon(Icons.image),
+                        ),
+                        validator: (value) {
+                          if (value != null && value.isNotEmpty) {
+                            if (!Uri.tryParse(value)?.hasAbsolutePath == true) {
+                              return 'Enter a valid URL';
+                            }
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _videoUrlController,
+                        decoration: const InputDecoration(
+                          labelText: 'Video URL (optional)',
+                          border: OutlineInputBorder(),
+                          prefixIcon: Icon(Icons.video_library),
+                        ),
+                        validator: (value) {
+                          if (value != null && value.isNotEmpty) {
+                            if (!Uri.tryParse(value)?.hasAbsolutePath == true) {
+                              return 'Enter a valid URL';
+                            }
+                          }
+                          return null;
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Publication Settings',
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue[700],
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      SwitchListTile(
+                        title: const Text('Published'),
+                        subtitle: const Text('Make this tutorial visible to users'),
+                        value: _isPublished,
+                        onChanged: (value) {
+                          setState(() {
+                            _isPublished = value;
+                          });
+                        },
+                        secondary: const Icon(Icons.visibility),
+                      ),
+                      SwitchListTile(
+                        title: const Text('Featured'),
+                        subtitle: const Text('Highlight this tutorial on the homepage'),
+                        value: _isFeatured,
+                        onChanged: (value) {
+                          setState(() {
+                            _isFeatured = value;
+                          });
+                        },
+                        secondary: const Icon(Icons.star),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: _isLoading ? null : _saveTutorial,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue[600],
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                ),
+                child: _isLoading
+                    ? const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(width: 8),
+                          Text('Creating Tutorial...'),
+                        ],
+                      )
+                    : const Text(
+                        'Create Tutorial',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

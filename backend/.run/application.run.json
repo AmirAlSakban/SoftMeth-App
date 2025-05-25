@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Run Spring Boot Application",
+      "request": "launch",
+      "mainClass": "com.bezkoder.spring.test.SpringBootRestControllerUnitTestApplication",
+      "projectName": "spring-boot-rest-controller-unit-test"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+# .gitignore
+# Root level ignores
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Backend (Spring Boot / Maven)
+backend/target/
+backend/bin/ # Add bin directory if it exists
+backend/.mvn/
+backend/mvnw
+backend/mvnw.cmd
+backend/*.iml
+backend/.idea/
+backend/.vscode/
+backend/logs/
+backend/test-output/ # Common for some test frameworks
+backend/dependency-reduced-pom.xml # Maven shade plugin
+
+# Frontend (Flutter)
+frontend/.dart_tool/
+frontend/.flutter-plugins
+frontend/.flutter-plugins-dependencies
+frontend/.packages
+frontend/.pub-cache/
+frontend/.pub/
+frontend/build/
+frontend/pubspec.lock # Usually committed, but can be ignored if causing merge conflicts for the prof
+frontend/.vscode/
+frontend/.idea/
+frontend/*.iml
+frontend/ios/Pods/
+frontend/ios/Flutter/ephemeral_plugins/
+frontend/android/.gradle/
+frontend/android/local.properties # Contains SDK path, user-specific
+
+# IDE files
+.vscode/
+.idea/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp # Vim swap files
+*.swo # Vim swap files
+*.DS_Store? # More robust .DS_Store ignore
+
+# Environment files
+.env
+.env.*
+!/.env.example # Often .env.example is committed
+application-local.properties
+application-dev.properties
+application-prod.properties
+
+# Other
+*.zip
+*.tar.gz
+*.rar

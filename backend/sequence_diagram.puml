@@ -1,0 +1,29 @@
+@startuml SequenceDiagram
+' Sequence diagram for creating a tutorial
+
+actor Client
+participant "TutorialController" as Controller
+participant "TutorialService" as Service
+participant "TutorialRepository" as Repository
+database "H2 Database" as Database
+
+Client -> Controller : POST /api/tutorials (with tutorial data)
+activate Controller
+Controller -> Controller : Validate request
+Controller -> Service : createTutorial(tutorial)
+activate Service
+Service -> Repository : save(tutorial)
+activate Repository
+Repository -> Database : Insert tutorial data
+activate Database
+Database --> Repository : Return saved entity
+deactivate Database
+Repository --> Service : Return Tutorial object
+deactivate Repository
+Service --> Controller : Return created Tutorial
+deactivate Service
+Controller --> Client : HTTP 201 with Tutorial data
+deactivate Controller
+
+@enduml
+

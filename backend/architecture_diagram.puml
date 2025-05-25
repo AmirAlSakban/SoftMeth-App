@@ -1,0 +1,21 @@
+@startuml ArchitectureDiagram
+' Architecture diagram for Tutorial Management System
+left to right direction
+
+!include <C4/C4_Container>
+
+Person(client, "API Client", "User or system that consumes the Tutorial API")
+System_Boundary(springApp, "Spring Boot Application") {
+  Container(controller, "Controller Layer", "Spring MVC", "Handles HTTP requests and routes them to the appropriate service methods")
+  Container(service, "Service Layer", "Spring Service", "Contains business logic and orchestrates calls to the repository layer")
+  Container(repository, "Repository Layer", "Spring Data JPA", "Provides data access and persistence operations")
+  ContainerDb(database, "Database", "H2 In-Memory DB", "Stores tutorial data")
+}
+
+Rel(client, controller, "Sends HTTP requests", "JSON/REST")
+Rel(controller, service, "Uses", "Method calls")
+Rel(service, repository, "Uses", "Method calls") 
+Rel(repository, database, "Reads/Writes data", "JPA/SQL")
+Rel(controller, client, "Returns HTTP responses", "JSON/REST")
+
+@enduml

@@ -1,0 +1,49 @@
+{
+  "name": "tutorial-management-app",
+  "version": "1.0.0",
+  "description": "A unified full-stack application for managing educational tutorials with Spring Boot backend and Flutter frontend",
+  "main": "README.md",
+  "scripts": {
+    "start": "start-app.bat",
+    "test-api": "test-api-comprehensive.bat",
+    "backend": "cd backend && mvn spring-boot:run",
+    "frontend": "cd frontend && flutter run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/tutorial-management-app.git"
+  },
+  "keywords": [
+    "tutorial",
+    "management",
+    "spring-boot",
+    "flutter",
+    "full-stack",
+    "rest-api",
+    "mobile-app"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "technologies": {
+    "backend": {
+      "framework": "Spring Boot 3.1.0",
+      "language": "Java 17+",
+      "database": "H2 (development)",
+      "build-tool": "Maven"
+    },
+    "frontend": {
+      "framework": "Flutter 3.0.0+",
+      "language": "Dart",
+      "ui": "Material Design",
+      "build-tool": "Flutter CLI"
+    }
+  },
+  "features": [
+    "Complete CRUD operations for tutorials",
+    "Search and filtering functionality",
+    "Modern responsive UI",
+    "Form validation",
+    "Error handling",
+    "RESTful API integration"
+  ]
+}

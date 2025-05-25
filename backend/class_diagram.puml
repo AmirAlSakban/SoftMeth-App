@@ -1,0 +1,62 @@
+@startuml ClassDiagram
+' Class diagram for Tutorial Management System
+
+class Tutorial {
+    -Long id
+    -String title
+    -String description
+    -boolean published
+    +getId(): Long
+    +setId(Long id): void
+    +getTitle(): String
+    +setTitle(String title): void
+    +getDescription(): String
+    +setDescription(String description): void
+    +isPublished(): boolean
+    +setPublished(boolean published): void
+    +toString(): String
+}
+
+class TutorialController {
+    -TutorialService tutorialService
+    +getAllTutorials(String title): ResponseEntity
+    +getTutorialById(long id): ResponseEntity
+    +createTutorial(Tutorial tutorial): ResponseEntity
+    +updateTutorial(long id, Tutorial tutorial): ResponseEntity
+    +deleteTutorial(long id): ResponseEntity
+    +deleteAllTutorials(): ResponseEntity
+    +findByPublished(): ResponseEntity
+}
+
+interface TutorialService {
+    +getAllTutorials(String title): List<Tutorial>
+    +getTutorialById(long id): Optional<Tutorial>
+    +createTutorial(Tutorial tutorial): Tutorial
+    +updateTutorial(Tutorial tutorial): Tutorial
+    +deleteTutorial(long id): void
+    +deleteAllTutorials(): void
+    +findByPublished(): List<Tutorial>
+}
+
+class TutorialServiceImpl {
+    -TutorialRepository tutorialRepository
+    +getAllTutorials(String title): List<Tutorial>
+    +getTutorialById(long id): Optional<Tutorial>
+    +createTutorial(Tutorial tutorial): Tutorial
+    +updateTutorial(Tutorial tutorial): Tutorial
+    +deleteTutorial(long id): void
+    +deleteAllTutorials(): void
+    +findByPublished(): List<Tutorial>
+}
+
+interface TutorialRepository {
+    +findByTitleContaining(String title): List<Tutorial>
+    +findByPublished(boolean published): List<Tutorial>
+}
+
+TutorialController --> TutorialService : uses
+TutorialServiceImpl ..|> TutorialService : implements
+TutorialServiceImpl --> TutorialRepository : uses
+TutorialRepository ..> Tutorial : manages
+
+@enduml

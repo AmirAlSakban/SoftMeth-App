@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Run All Tests",
+      "request": "launch",
+      "mainClass": "",
+      "projectName": "spring-boot-rest-controller-unit-test",
+      "vmArgs": "-ea",
+      "args": [],
+      "env": {},
+      "testKind": "all",
+      "testFramework": "junit"
+    }
+  ]
+}

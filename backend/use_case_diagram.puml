@@ -1,0 +1,99 @@
+@startuml Tutorial Management App - Optimized Use Case Diagram
+
+!theme plain
+left to right direction
+skinparam packageStyle rectangle
+skinparam usecase {
+    BackgroundColor LightYellow
+    BorderColor DarkBlue
+}
+skinparam actor {
+    BackgroundColor LightBlue
+    BorderColor DarkBlue
+}
+
+title Tutorial Management Application - Use Cases
+
+actor "Tutorial User" as User
+actor "Content Creator" as Creator
+actor "Administrator" as Admin
+
+rectangle "Tutorial Management System" {
+    ' Core Viewing Use Cases
+    usecase "Browse All Tutorials" as UC1
+    usecase "Filter Published Tutorials" as UC2
+    usecase "Search Tutorials by Title" as UC3
+    usecase "View Tutorial Details" as UC4
+    usecase "Sort Tutorials" as UC5
+    
+    ' Content Management Use Cases
+    usecase "Create New Tutorial" as UC6
+    usecase "Edit Tutorial Content" as UC7
+    usecase "Delete Tutorial" as UC8
+    usecase "Publish Tutorial" as UC9
+    usecase "Mark Tutorial as Featured" as UC10
+    
+    ' Bulk Operations
+    usecase "Delete All Tutorials" as UC11
+    usecase "Bulk Publish Tutorials" as UC12
+    
+    ' Extended Functionalities
+    usecase "Validate Tutorial Data" as UC13
+    usecase "Handle Media Content" as UC14
+    usecase "Track Tutorial Metrics" as UC15
+}
+
+' User relationships - viewing capabilities
+User --> UC1
+User --> UC2
+User --> UC3
+User --> UC4
+User --> UC5
+
+' Creator relationships - content management
+Creator --> UC1
+Creator --> UC2
+Creator --> UC3
+Creator --> UC4
+Creator --> UC6
+Creator --> UC7
+Creator --> UC8
+Creator --> UC9
+Creator --> UC10
+
+' Administrator relationships - full access
+Admin --> UC1
+Admin --> UC2
+Admin --> UC3
+Admin --> UC4
+Admin --> UC6
+Admin --> UC7
+Admin --> UC8
+Admin --> UC9
+Admin --> UC10
+Admin --> UC11
+Admin --> UC12
+
+' Use case relationships
+UC1 <|-- UC2 : <<extends>>
+UC1 <|-- UC3 : <<extends>>
+UC1 <|-- UC5 : <<extends>>
+
+UC4 <|-- UC7 : <<extends>>
+UC4 <|-- UC8 : <<extends>>
+
+UC6 ..> UC13 : <<includes>>
+UC7 ..> UC13 : <<includes>>
+UC6 ..> UC14 : <<includes>>
+UC7 ..> UC14 : <<includes>>
+
+UC9 ..> UC15 : <<includes>>
+UC10 ..> UC15 : <<includes>>
+
+UC12 ..> UC9 : <<includes>>
+
+note right of UC13 : Validates required fields,\ndata formats, and\nbusiness rules
+note right of UC14 : Handles image URLs,\nvideo URLs, and\nmedia validation
+note bottom of UC15 : Tracks creation dates,\nupdate timestamps,\nand usage statistics
+
+@enduml

@@ -1,0 +1,123 @@
+@startuml Tutorial Management App - Enhanced Component Architecture
+
+!theme plain
+skinparam componentStyle rectangle
+skinparam interface {
+    BackgroundColor LightYellow
+    BorderColor DarkBlue
+}
+skinparam component {
+    BackgroundColor LightBlue
+    BorderColor DarkBlue
+}
+
+title Flutter Frontend - Component Architecture & Data Flow
+
+package "Flutter Application" {
+    
+    package "Presentation Layer" {
+        component [MyApp] as App
+        component [TutorialListScreen] as ListScreen
+        component [AddTutorialScreen] as AddScreen
+        component [EditTutorialScreen] as EditScreen
+        component [TutorialDetailScreen] as DetailScreen
+        
+        interface "Navigator" as Navigator
+        interface "MaterialApp" as MaterialApp
+    }
+    
+    package "Business Logic Layer" {
+        component [TutorialBloc] as Bloc
+        component [TutorialState] as State
+        component [TutorialEvent] as Event
+        
+        interface "StateManagement" as StateManagement
+    }
+    
+    package "Data Layer" {
+        component [ApiService] as APIService
+        component [TutorialRepository] as Repository
+        component [HttpClient] as HttpClient
+        
+        interface "DataSource" as DataSource
+        interface "CacheManager" as CacheManager
+    }
+    
+    package "Domain Layer" {
+        component [Tutorial] as TutorialModel
+        component [ValidationService] as Validation
+        
+        interface "BusinessRules" as BusinessRules
+    }
+    
+    package "UI Components" {
+        component [TutorialCard] as TutorialCard
+        component [SearchWidget] as SearchWidget
+        component [FilterChips] as FilterChips
+        component [FormFields] as FormFields
+        component [LoadingIndicator] as LoadingIndicator
+    }
+}
+
+' External dependencies
+component [SpringBootAPI] as Backend
+database [LocalStorage] as LocalDB
+
+' Relationships - Application Flow
+App --> Navigator
+App --> MaterialApp
+Navigator --> ListScreen
+Navigator --> AddScreen  
+Navigator --> EditScreen
+Navigator --> DetailScreen
+
+' Screen to Bloc connections
+ListScreen --> Bloc
+AddScreen --> Bloc
+EditScreen --> Bloc
+DetailScreen --> Bloc
+
+' Bloc pattern connections
+Bloc --> State
+Bloc --> Event
+Bloc --> Repository
+
+' Data layer connections
+Repository --> APIService
+Repository --> CacheManager
+APIService --> HttpClient
+APIService --> DataSource
+
+' Domain connections
+Repository --> TutorialModel
+Validation --> BusinessRules
+Bloc --> Validation
+
+' UI Component usage
+ListScreen --> TutorialCard
+ListScreen --> SearchWidget
+ListScreen --> FilterChips
+ListScreen --> LoadingIndicator
+AddScreen --> FormFields
+AddScreen --> LoadingIndicator
+EditScreen --> FormFields
+EditScreen --> LoadingIndicator
+
+' External connections
+APIService --> Backend : HTTP/REST
+CacheManager --> LocalDB : Store/Retrieve
+
+' Navigation flow arrows
+ListScreen ..> AddScreen : "Add Tutorial"
+ListScreen ..> DetailScreen : "View Details"
+DetailScreen ..> EditScreen : "Edit Tutorial"
+EditScreen ..> DetailScreen : "Save Changes"
+AddScreen ..> ListScreen : "Save Success"
+
+note right of Backend : REST API\n/api/tutorials\nJSON responses
+
+note left of Bloc : State Management:\n- Loading states\n- Error handling\n- Data caching\n- Event processing
+
+note bottom of Repository : Repository Pattern:\n- API abstraction\n- Offline support\n- Data validation\n- Cache strategy
+
+@enduml

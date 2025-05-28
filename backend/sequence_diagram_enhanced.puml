@@ -1,0 +1,266 @@
+@startuml Tutorial Management App - Enhanced Sequence Diagram
+
+!theme plain
+skinparam sequenceArrowThickness 2
+skinparam roundcorner 20
+skinparam maxmessagesize 60
+skinparam sequenceParticipant underline
+
+title Tutorial Management Application - Key Interaction Flows
+
+actor User
+participant "Flutter UI" as UI
+participant "ApiService" as API
+participant "TutorialController" as Controller
+participant "TutorialService" as Service
+participant "TutorialRepository" as Repository
+database "H2/PostgreSQL\nDatabase" as DB
+
+' Enhanced View All Tutorials Sequence with Error Handling
+group View All Tutorials with Search
+    User -> UI: Open app / Search tutorials
+    activate UI
+    
+    UI -> UI: Show loading indicator
+    UI -> API: getAllTutorials(searchTitle?)
+    activate API
+    
+    API -> Controller: GET /api/tutorials?title={searchTitle}
+    activate Controller
+    
+    alt Search with title
+        Controller -> Service: getTutorialsByTitle(title)
+        activate Service
+        Service -> Repository: findByTitleContaining(title)
+    else No search term
+        Controller -> Service: getAllTutorials()
+        Service -> Repository: findAll()
+    end
+    
+    activate Repository
+    Repository -> DB: SELECT * FROM tutorials\nWHERE title LIKE ?
+    activate DB
+    
+    alt Success
+        DB --> Repository: Return tutorial records
+        Repository --> Service: Return List<Tutorial>
+        deactivate Repository
+        Service --> Controller: Return List<Tutorial>
+        deactivate Service
+        Controller --> API: HTTP 200 + JSON List
+        deactivate Controller
+        API --> UI: Return Tutorial List
+        deactivate API
+        UI -> UI: Hide loading, display tutorials
+        UI --> User: Show tutorial grid/list
+    else Database Error
+        DB --> Repository: SQLException
+        deactivate DB
+        Repository --> Service: Throw DataAccessException
+        Service --> Controller: Throw ServiceException
+        Controller --> API: HTTP 500 + Error message
+        API --> UI: Throw ApiException
+        UI -> UI: Hide loading, show error
+        UI --> User: Display error message
+    end
+    deactivate UI
+end
+
+' Enhanced Create New Tutorial Sequence with Validation
+group Create New Tutorial with Validation
+    User -> UI: Fill form and click "Save"
+    activate UI
+    
+    UI -> UI: Validate form inputs
+    alt Form validation fails
+        UI --> User: Show validation errors
+        deactivate UI
+    else Form is valid
+        UI -> UI: Show saving indicator
+        UI -> API: createTutorial(tutorialData)
+        activate API
+        
+        API -> Controller: POST /api/tutorials\n+ JSON body
+        activate Controller
+        
+        Controller -> Controller: Validate request data
+        alt Invalid data
+            Controller --> API: HTTP 400 + Validation errors
+            API --> UI: Throw ValidationException
+            UI -> UI: Hide saving indicator
+            UI --> User: Display validation errors
+        else Data is valid
+            Controller -> Service: createTutorial(tutorial)
+            activate Service
+            
+            Service -> Service: Apply business rules
+            Service -> Repository: save(tutorial)
+            activate Repository
+            
+            Repository -> DB: INSERT INTO tutorials\n(title, description, ...)
+            activate DB
+            
+            alt Save successful
+                DB --> Repository: Return saved tutorial with ID
+                deactivate DB
+                Repository --> Service: Return saved Tutorial
+                deactivate Repository
+                Service --> Controller: Return created Tutorial
+                deactivate Service
+                Controller --> API: HTTP 201 + JSON Tutorial
+                deactivate Controller
+                API --> UI: Return created Tutorial
+                deactivate API
+                UI -> UI: Hide saving indicator
+                UI -> UI: Navigate to tutorial list
+                UI --> User: Show success message
+            else Constraint violation
+                DB --> Repository: ConstraintViolationException
+                Repository --> Service: Throw DataIntegrityException
+                Service --> Controller: Throw ServiceException
+                Controller --> API: HTTP 409 + Error message
+                API --> UI: Throw ConflictException
+                UI -> UI: Hide saving indicator
+                UI --> User: Show conflict error
+            end
+        end
+    end
+    deactivate UI
+end
+
+' Enhanced Update Tutorial Sequence
+group Update Tutorial with Optimistic Locking
+    User -> UI: Edit form and click "Update"
+    activate UI
+    
+    UI -> UI: Validate changes
+    UI -> UI: Show updating indicator
+    UI -> API: updateTutorial(id, updatedData)
+    activate API
+    
+    API -> Controller: PUT /api/tutorials/{id}
+    activate Controller
+    
+    Controller -> Service: updateTutorial(id, tutorial)
+    activate Service
+    
+    Service -> Repository: findById(id)
+    activate Repository
+    Repository -> DB: SELECT * FROM tutorials\nWHERE id = ?
+    activate DB
+    
+    alt Tutorial exists
+        DB --> Repository: Return tutorial record
+        deactivate DB
+        Repository --> Service: Return Optional<Tutorial>
+        
+        Service -> Service: Update tutorial fields
+        Service -> Repository: save(updatedTutorial)
+        Repository -> DB: UPDATE tutorials SET ...\nWHERE id = ? AND version = ?
+        activate DB
+        
+        alt Update successful
+            DB --> Repository: Return updated tutorial
+            deactivate DB
+            Repository --> Service: Return updated Tutorial
+            deactivate Repository
+            Service --> Controller: Return Optional<Tutorial>
+            deactivate Service
+            Controller --> API: HTTP 200 + JSON Tutorial
+            deactivate Controller
+            API --> UI: Return updated Tutorial
+            deactivate API
+            UI -> UI: Hide updating indicator
+            UI -> UI: Refresh tutorial details
+            UI --> User: Show success notification
+        else Optimistic locking failure
+            DB --> Repository: OptimisticLockException
+            Repository --> Service: Throw ConcurrencyException
+            Service --> Controller: Throw ServiceException
+            Controller --> API: HTTP 409 + Conflict message
+            API --> UI: Throw ConflictException
+            UI -> UI: Hide updating indicator
+            UI --> User: Show "Tutorial modified by another user"
+        end
+    else Tutorial not found
+        DB --> Repository: Empty result
+        Repository --> Service: Return Optional.empty()
+        Service --> Controller: Return Optional.empty()
+        Controller --> API: HTTP 404 + Not found message
+        API --> UI: Throw NotFoundException
+        UI -> UI: Hide updating indicator
+        UI --> User: Show "Tutorial not found"
+    end
+    deactivate UI
+end
+
+' Enhanced Delete Tutorial Sequence with Confirmation
+group Delete Tutorial with Confirmation
+    User -> UI: Click "Delete" button
+    activate UI
+    
+    UI -> UI: Show confirmation dialog
+    User -> UI: Confirm deletion
+    
+    UI -> UI: Show deleting indicator
+    UI -> API: deleteTutorial(id)
+    activate API
+    
+    API -> Controller: DELETE /api/tutorials/{id}
+    activate Controller
+    
+    Controller -> Service: deleteTutorial(id)
+    activate Service
+    
+    Service -> Repository: existsById(id)
+    activate Repository
+    Repository -> DB: SELECT COUNT(*) FROM tutorials\nWHERE id = ?
+    activate DB
+    
+    alt Tutorial exists
+        DB --> Repository: Return count > 0
+        deactivate DB
+        Repository --> Service: Return true
+        
+        Service -> Repository: deleteById(id)
+        Repository -> DB: DELETE FROM tutorials\nWHERE id = ?
+        activate DB
+        
+        alt Delete successful
+            DB --> Repository: Confirm deletion (affected rows = 1)
+            deactivate DB
+            Repository --> Service: Return void
+            deactivate Repository
+            Service --> Controller: Return true
+            deactivate Service
+            Controller --> API: HTTP 204 No Content
+            deactivate Controller
+            API --> UI: Return void
+            deactivate API
+            UI -> UI: Hide deleting indicator
+            UI -> UI: Remove tutorial from list
+            UI --> User: Show success notification
+        else Delete failed (referential integrity)
+            DB --> Repository: ForeignKeyConstraintException
+            Repository --> Service: Throw DataIntegrityException
+            Service --> Controller: Throw ServiceException
+            Controller --> API: HTTP 409 + Constraint error
+            API --> UI: Throw ConflictException
+            UI -> UI: Hide deleting indicator
+            UI --> User: Show "Cannot delete: tutorial in use"
+        end
+    else Tutorial not found
+        DB --> Repository: Return count = 0
+        Repository --> Service: Return false
+        Service --> Controller: Return false
+        Controller --> API: HTTP 404 + Not found
+        API --> UI: Throw NotFoundException
+        UI -> UI: Hide deleting indicator
+        UI --> User: Show "Tutorial already deleted"
+    end
+    deactivate UI
+end
+
+note over User, DB : Error Handling Strategy:\n- Form validation on client side\n- Server-side validation for security\n- Optimistic locking for concurrent updates\n- Proper HTTP status codes\n- User-friendly error messages
+
+@enduml

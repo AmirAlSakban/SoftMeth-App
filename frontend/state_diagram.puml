@@ -1,0 +1,143 @@
+@startuml Tutorial Management App - Enhanced State Diagram
+
+!theme plain
+skinparam state {
+    BackgroundColor LightBlue
+    BorderColor DarkBlue
+    ArrowColor DarkBlue
+}
+
+title Flutter Application - State Management & User Flow
+
+[*] --> AppInitializing : App Launch
+
+state AppInitializing {
+    [*] --> LoadingConfiguration
+    LoadingConfiguration --> CheckingConnectivity : Config Loaded
+    CheckingConnectivity --> InitializingServices : Connected
+    CheckingConnectivity --> OfflineMode : No Connection
+    InitializingServices --> TutorialList : Services Ready
+    OfflineMode --> TutorialList : Load Cached Data
+}
+
+state TutorialList {
+    [*] --> LoadingTutorials
+    LoadingTutorials --> ShowingAllTutorials : Load Success
+    LoadingTutorials --> ErrorState : Load Failed
+    
+    ShowingAllTutorials --> ShowingPublishedOnly : Toggle Published Filter
+    ShowingPublishedOnly --> ShowingAllTutorials : Toggle All Filter
+    
+    ShowingAllTutorials --> SearchingTutorials : Enter Search Term
+    ShowingPublishedOnly --> SearchingTutorials : Enter Search Term
+    
+    SearchingTutorials --> FilteredResults : Search Success
+    SearchingTutorials --> ErrorState : Search Failed
+    
+    FilteredResults --> ShowingAllTutorials : Clear Search (No Filter)
+    FilteredResults --> ShowingPublishedOnly : Clear Search (With Filter)
+    
+    ShowingAllTutorials --> RefreshingTutorials : Pull to Refresh
+    ShowingPublishedOnly --> RefreshingTutorials : Pull to Refresh
+    FilteredResults --> RefreshingTutorials : Pull to Refresh
+    
+    RefreshingTutorials --> ShowingAllTutorials : Refresh Success
+    RefreshingTutorials --> ErrorState : Refresh Failed
+    
+    ErrorState --> LoadingTutorials : Retry
+    ErrorState --> OfflineMode : Connection Lost
+}
+
+TutorialList --> TutorialDetail : Select Tutorial
+TutorialList --> AddTutorial : Tap Add Button
+
+state AddTutorial {
+    [*] --> InitializingForm
+    InitializingForm --> FillingForm : Form Ready
+    
+    FillingForm --> ValidatingForm : Submit Attempt
+    ValidatingForm --> FillingForm : Validation Failed
+    ValidatingForm --> SavingTutorial : Validation Passed
+    
+    SavingTutorial --> SavingSuccess : Save Success
+    SavingTutorial --> SavingError : Save Failed
+    
+    SavingSuccess --> TutorialList : Navigate Back
+    SavingError --> FillingForm : Show Error & Retry
+    
+    FillingForm --> TutorialList : Cancel/Back
+}
+
+state TutorialDetail {
+    [*] --> LoadingDetails
+    LoadingDetails --> ViewingDetails : Load Success
+    LoadingDetails --> DetailError : Load Failed
+    
+    ViewingDetails --> ConfirmingDelete : Tap Delete
+    ViewingDetails --> RefreshingDetails : Pull to Refresh
+    
+    ConfirmingDelete --> DeletingTutorial : Confirm Delete
+    ConfirmingDelete --> ViewingDetails : Cancel Delete
+    
+    DeletingTutorial --> DeleteSuccess : Delete Success
+    DeletingTutorial --> DeleteError : Delete Failed
+    
+    DeleteSuccess --> TutorialList : Navigate Back
+    DeleteError --> ViewingDetails : Show Error
+    
+    RefreshingDetails --> ViewingDetails : Refresh Success
+    RefreshingDetails --> DetailError : Refresh Failed
+    
+    DetailError --> LoadingDetails : Retry
+    DetailError --> TutorialList : Go Back
+}
+
+TutorialDetail --> EditTutorial : Tap Edit Button
+
+state EditTutorial {
+    [*] --> LoadingTutorialData
+    LoadingTutorialData --> PopulatingForm : Data Loaded
+    LoadingTutorialData --> EditError : Load Failed
+    
+    PopulatingForm --> EditingForm : Form Ready
+    
+    EditingForm --> ValidatingChanges : Submit Changes
+    ValidatingChanges --> EditingForm : Validation Failed
+    ValidatingChanges --> UpdatingTutorial : Validation Passed
+    
+    UpdatingTutorial --> UpdateSuccess : Update Success
+    UpdatingTutorial --> UpdateError : Update Failed
+    
+    UpdateSuccess --> TutorialDetail : Navigate Back
+    UpdateError --> EditingForm : Show Error & Retry
+    
+    EditingForm --> TutorialDetail : Cancel Changes
+    EditError --> TutorialDetail : Go Back
+}
+
+' Global error states and connectivity
+state OfflineMode {
+    [*] --> ShowingCachedData
+    ShowingCachedData --> CheckingConnection : Retry Connection
+    CheckingConnection --> TutorialList : Connection Restored
+    CheckingConnection --> ShowingCachedData : Still Offline
+}
+
+' Global transitions for connectivity issues
+TutorialDetail --> OfflineMode : Connection Lost
+AddTutorial --> OfflineMode : Connection Lost  
+EditTutorial --> OfflineMode : Connection Lost
+
+OfflineMode --> TutorialList : Connection Restored
+
+' App lifecycle
+TutorialList --> [*] : App Closed
+TutorialDetail --> [*] : App Closed
+AddTutorial --> [*] : App Closed
+EditTutorial --> [*] : App Closed
+
+note right of AppInitializing : Initialize:\n- Load config\n- Check connectivity\n- Setup services\n- Load cached data
+
+note left of OfflineMode : Offline Features:\n- Show cached tutorials\n- Disable edit operations\n- Queue pending changes\n- Retry connection
+
+@enduml

@@ -18,6 +18,8 @@ class _TutorialListScreenState extends State<TutorialListScreen> {
   String _error = '';
   final TextEditingController _searchController = TextEditingController();
   bool _showPublishedOnly = false;
+  String? _selectedCategory;
+  List<String> _categories = [];
 
   @override
   void initState() {
@@ -46,9 +48,18 @@ class _TutorialListScreenState extends State<TutorialListScreen> {
         tutorials = await _apiService.getAllTutorials();
       }
       
+      // Extract unique categories
+      Set<String> categorySet = {};
+      for (var tutorial in tutorials) {
+        if (tutorial.category != null && tutorial.category!.isNotEmpty) {
+          categorySet.add(tutorial.category!);
+        }
+      }
+      
       setState(() {
         _tutorials = tutorials;
         _filteredTutorials = tutorials;
+        _categories = categorySet.toList()..sort();
         _isLoading = false;
       });
     } catch (e) {

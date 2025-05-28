@@ -1,0 +1,88 @@
+@startuml Tutorial Management App - Enhanced ER Diagram
+
+!theme plain
+skinparam entity {
+    BackgroundColor LightYellow
+    BorderColor DarkBlue
+}
+
+title Tutorial Management System - Database Schema
+
+entity Tutorial {
+  * **id** : BIGINT <<PK, Auto-Generated>>
+  --
+  * **title** : VARCHAR(255) <<NOT NULL, Indexed>>
+  * **description** : TEXT <<NOT NULL>>
+  --
+  **category** : VARCHAR(100) <<Indexed>>
+  **author** : VARCHAR(150) <<Indexed>>
+  **difficulty_level** : VARCHAR(20) <<Check: 'BEGINNER', 'INTERMEDIATE', 'ADVANCED'>>
+  **duration_minutes** : INTEGER <<Check: > 0>>
+  --
+  * **published** : BOOLEAN <<NOT NULL, Default: FALSE, Indexed>>
+  * **featured** : BOOLEAN <<NOT NULL, Default: FALSE, Indexed>>
+  --
+  **image_url** : VARCHAR(500) <<URL Format>>
+  **video_url** : VARCHAR(500) <<URL Format>>
+  --
+  * **created_at** : TIMESTAMP <<NOT NULL, Default: CURRENT_TIMESTAMP>>
+  * **updated_at** : TIMESTAMP <<NOT NULL, Auto-Update>>
+  **version** : INTEGER <<Optimistic Locking, Default: 0>>
+}
+
+' Future extensions (commented for current implementation)
+/' 
+entity Category {
+  * **id** : BIGINT <<PK>>
+  --
+  * **name** : VARCHAR(100) <<UNIQUE, NOT NULL>>
+  * **description** : TEXT
+  * **color_code** : VARCHAR(7) <<Hex Color>>
+  * **icon** : VARCHAR(50)
+  --
+  * **created_at** : TIMESTAMP
+  * **updated_at** : TIMESTAMP
+}
+
+entity Author {
+  * **id** : BIGINT <<PK>>
+  --
+  * **username** : VARCHAR(50) <<UNIQUE, NOT NULL>>
+  * **email** : VARCHAR(255) <<UNIQUE, NOT NULL>>
+  * **full_name** : VARCHAR(200)
+  * **bio** : TEXT
+  * **avatar_url** : VARCHAR(500)
+  --
+  * **created_at** : TIMESTAMP
+  * **updated_at** : TIMESTAMP
+}
+
+entity TutorialTag {
+  * **tutorial_id** : BIGINT <<FK>>
+  * **tag_id** : BIGINT <<FK>>
+  --
+  **created_at** : TIMESTAMP
+}
+
+entity Tag {
+  * **id** : BIGINT <<PK>>
+  --
+  * **name** : VARCHAR(50) <<UNIQUE, NOT NULL>>
+  * **description** : VARCHAR(255)
+  --
+  * **created_at** : TIMESTAMP
+}
+
+' Future relationships
+Tutorial ||--o{ TutorialTag
+Tag ||--o{ TutorialTag
+Tutorial }o--|| Category : belongs_to
+Tutorial }o--|| Author : created_by
+'/
+
+' Current indexes and constraints
+note top of Tutorial : **Indexes:**\n- idx_tutorial_title (title)\n- idx_tutorial_published (published)\n- idx_tutorial_featured (featured)\n- idx_tutorial_category (category)\n- idx_tutorial_author (author)\n- idx_tutorial_created (created_at)\n\n**Constraints:**\n- title: NOT NULL, LENGTH > 3\n- description: NOT NULL, LENGTH > 10\n- difficulty_level: ENUM values only\n- duration_minutes: > 0 if not NULL\n- URLs: Valid URL format if not NULL
+
+note bottom of Tutorial : **Triggers:**\n- auto_update_timestamp:\n  Updates 'updated_at' on every UPDATE\n\n**Business Rules:**\n- Featured tutorials must be published\n- Published tutorials must have title & description\n- Soft delete option available (add 'deleted_at')\n\n**Sample Data Types:**\n- H2: Development database\n- PostgreSQL: Production database\n- Supports JSON fields for future metadata
+
+@enduml

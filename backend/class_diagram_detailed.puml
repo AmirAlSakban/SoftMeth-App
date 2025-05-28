@@ -1,0 +1,256 @@
+@startuml Tutorial Management App - Optimized Class Diagram
+
+!theme plain
+skinparam linetype ortho
+skinparam packageStyle rectangle
+skinparam class {
+    BackgroundColor LightBlue
+    BorderColor DarkBlue
+    HeaderBackgroundColor DarkBlue
+    HeaderFontColor White
+}
+
+title Tutorial Management Application - Class Diagram
+
+package "Web Layer" <<Rectangle>> {
+    class TutorialController <<@RestController>> {
+        - tutorialService: TutorialService
+        --
+        + getAllTutorials(title: String?): ResponseEntity<List<Tutorial>>
+        + getTutorialById(id: long): ResponseEntity<Tutorial>
+        + createTutorial(tutorial: Tutorial): ResponseEntity<Tutorial>
+        + updateTutorial(id: long, tutorial: Tutorial): ResponseEntity<Tutorial>
+        + deleteTutorial(id: long): ResponseEntity<HttpStatus>
+        + deleteAllTutorials(): ResponseEntity<HttpStatus>
+        + findByPublished(): ResponseEntity<List<Tutorial>>
+    }
+}
+
+package "Service Layer" <<Rectangle>> {
+    interface TutorialService <<@Service>> {
+        + getAllTutorials(): List<Tutorial>
+        + getTutorialsByTitle(title: String): List<Tutorial>
+        + getTutorialById(id: long): Optional<Tutorial>
+        + createTutorial(tutorial: Tutorial): Tutorial
+        + updateTutorial(id: long, tutorial: Tutorial): Optional<Tutorial>
+        + deleteTutorial(id: long): boolean
+        + deleteAllTutorials(): void
+        + findByPublished(published: boolean): List<Tutorial>
+    }
+
+    class TutorialServiceImpl implements TutorialService {
+        - tutorialRepository: TutorialRepository
+        --
+        + <<implements all service methods>>
+    }
+}
+
+package "Data Access Layer" <<Rectangle>> {
+    interface TutorialRepository extends JpaRepository {
+        + findByPublished(published: boolean): List<Tutorial>
+        + findByTitleContaining(title: String): List<Tutorial>
+        + findByCategoryIgnoreCase(category: String): List<Tutorial>
+        + findByDifficultyLevel(difficulty: String): List<Tutorial>
+        + findByAuthorContainingIgnoreCase(author: String): List<Tutorial>
+    }
+}
+
+package "Domain Model" <<Rectangle>> {
+    class Tutorial <<@Entity>> {
+        - id: long <<@Id, @GeneratedValue>>
+        - title: String <<@NotBlank>>
+        - description: String <<@NotBlank>>
+        - category: String
+        - author: String
+        - difficultyLevel: String
+        - durationMinutes: Integer
+        - published: boolean
+        - featured: boolean
+        - imageUrl: String
+        - videoUrl: String
+        - createdAt: LocalDateTime <<@CreationTimestamp>>
+        - updatedAt: LocalDateTime <<@UpdateTimestamp>>
+        --
+        + Tutorial()
+        + Tutorial(title, description, published)
+        + Tutorial(id, title, description, published)
+        + preUpdate(): void <<@PreUpdate>>
+        + toString(): String
+        + equals(obj: Object): boolean
+        + hashCode(): int
+        + <<getters and setters>>
+    }
+}
+package "Frontend - Flutter Application" <<Rectangle>> {
+    
+    package "Data Layer" {
+        class ApiService <<Singleton>> {
+            - baseUrl: String
+            - tutorialsEndpoint: String
+            - httpClient: http.Client
+            --
+            + getAllTutorials(title: String?): Future<List<Tutorial>>
+            + getTutorialById(id: int): Future<Tutorial>
+            + createTutorial(tutorial: Tutorial): Future<Tutorial>
+            + updateTutorial(id: int, tutorial: Tutorial): Future<Tutorial>
+            + deleteTutorial(id: int): Future<void>
+            + deleteAllTutorials(): Future<void>
+            + getPublishedTutorials(): Future<List<Tutorial>>
+            - handleResponse(response: http.Response): dynamic
+            - handleError(error: Exception): void
+        }
+        
+        class Tutorial <<Model>> {
+            - id: int?
+            - title: String
+            - description: String
+            - category: String?
+            - author: String?
+            - difficultyLevel: String?
+            - durationMinutes: int?
+            - published: bool
+            - featured: bool
+            - imageUrl: String?
+            - videoUrl: String?
+            - createdAt: DateTime?
+            - updatedAt: DateTime?
+            --
+            + Tutorial.fromJson(json: Map<String, dynamic>): Tutorial
+            + toJson(): Map<String, dynamic>
+            + copyWith(...): Tutorial
+            + toString(): String
+            + operator ==(other: Object): bool
+            + hashCode: int
+        }
+    }
+    
+    package "Presentation Layer" {
+        abstract class StatefulWidget
+        
+        class TutorialListScreen extends StatefulWidget {
+            - apiService: ApiService
+            - tutorials: List<Tutorial>
+            - filteredTutorials: List<Tutorial>
+            - isLoading: bool
+            - error: String?
+            - searchController: TextEditingController
+            - showPublishedOnly: bool
+            --
+            + initState(): void
+            + dispose(): void
+            + loadTutorials(): Future<void>
+            + filterTutorials(): void
+            + togglePublishedFilter(): void
+            + build(context: BuildContext): Widget
+            - buildTutorialCard(tutorial: Tutorial): Widget
+            - buildSearchBar(): Widget
+            - buildFilterChips(): Widget
+            - showErrorSnackBar(message: String): void
+        }
+
+        class AddTutorialScreen extends StatefulWidget {
+            - formKey: GlobalKey<FormState>
+            - titleController: TextEditingController
+            - descriptionController: TextEditingController
+            - categoryController: TextEditingController
+            - authorController: TextEditingController
+            - difficultyController: TextEditingController
+            - durationController: TextEditingController
+            - imageUrlController: TextEditingController
+            - videoUrlController: TextEditingController
+            - isPublished: bool
+            - isFeatured: bool
+            - isLoading: bool
+            - difficulties: List<String>
+            - selectedDifficulty: String?
+            --
+            + initState(): void
+            + dispose(): void
+            + saveTutorial(): Future<void>
+            + build(context: BuildContext): Widget
+            - validateForm(): bool
+            - resetForm(): void
+            - showSuccessDialog(): void
+        }
+
+        class EditTutorialScreen extends StatefulWidget {
+            - tutorial: Tutorial
+            - formKey: GlobalKey<FormState>
+            - titleController: TextEditingController
+            - descriptionController: TextEditingController
+            - categoryController: TextEditingController
+            - authorController: TextEditingController
+            - durationController: TextEditingController
+            - imageUrlController: TextEditingController
+            - videoUrlController: TextEditingController
+            - isPublished: bool
+            - isFeatured: bool
+            - isLoading: bool
+            - difficulties: List<String>
+            - selectedDifficulty: String?
+            --
+            + initState(): void
+            + populateFields(): void
+            + dispose(): void
+            + updateTutorial(): Future<void>
+            + deleteTutorial(): Future<void>
+            + build(context: BuildContext): Widget
+            - validateForm(): bool
+            - showDeleteConfirmDialog(): Future<bool>
+        }
+
+        class TutorialDetailScreen extends StatefulWidget {
+            - tutorial: Tutorial
+            - apiService: ApiService
+            --
+            + initState(): void
+            + deleteTutorial(): Future<void>
+            + showDeleteDialog(): void
+            + build(context: BuildContext): Widget
+            - buildDetailCard(): Widget
+            - buildMetadataCard(): Widget
+            - buildActionButtons(): Widget
+            - buildDetailRow(label: String, value: String?): Widget
+            - formatDateTime(dateTime: DateTime?): String
+            - launchUrl(url: String): Future<void>
+        }
+        
+        class MyApp extends StatelessWidget {
+            + build(context: BuildContext): Widget
+        }
+    }
+}
+
+' Relationships with improved clarity
+TutorialController ||--|| TutorialService : uses
+TutorialServiceImpl ||--|| TutorialRepository : uses  
+TutorialRepository ||--|| Tutorial : manages
+
+' Frontend relationships
+ApiService ||--|| "Frontend::Tutorial" : serializes/deserializes
+TutorialListScreen ||--|| ApiService : uses
+TutorialListScreen ||--|| "Frontend::Tutorial" : displays
+AddTutorialScreen ||--|| ApiService : uses
+AddTutorialScreen ||--|| "Frontend::Tutorial" : creates
+EditTutorialScreen ||--|| ApiService : uses
+EditTutorialScreen ||--|| "Frontend::Tutorial" : updates
+TutorialDetailScreen ||--|| ApiService : uses
+TutorialDetailScreen ||--|| "Frontend::Tutorial" : displays
+
+' Navigation relationships
+MyApp --> TutorialListScreen : routes to
+TutorialListScreen --> AddTutorialScreen : navigates to
+TutorialListScreen --> TutorialDetailScreen : navigates to
+TutorialDetailScreen --> EditTutorialScreen : navigates to
+
+' Cross-platform data flow
+"Frontend::Tutorial" ..> Tutorial : <<HTTP API>>
+ApiService ..> TutorialController : <<REST calls>>
+
+note top of TutorialController : REST API\nEndpoints:\n/api/tutorials
+
+note top of ApiService : HTTP Client\nJSON Serialization\nError Handling
+
+note bottom of Tutorial : JPA Entity\nH2/PostgreSQL\nAuto-timestamps
+
+@enduml

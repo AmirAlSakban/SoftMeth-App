@@ -1,0 +1,61 @@
+@startuml Tutorial Management App - Enhanced Architecture Diagram
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+!include DEVICONS/java.puml
+!include DEVICONS/flutter.puml
+!include FONTAWESOME/database.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Tutorial Management System - Architecture Overview
+
+Person(user, "Mobile User", "Uses the tutorial management app to browse, create, and manage tutorials")
+
+System_Boundary(tutorial_system, "Tutorial Management System") {
+    
+    Container(flutter_app, "Flutter Mobile App", "Flutter, Dart", "Cross-platform mobile application providing tutorial management interface", $sprite="flutter")
+    
+    Container_Boundary(backend_boundary, "Backend Services") {
+        Container(spring_api, "REST API Server", "Java 17, Spring Boot 3.x", "Provides REST endpoints for tutorial CRUD operations", $sprite="java")
+        Container(business_layer, "Business Logic", "Spring Service Layer", "Handles business rules, validation, and data processing")
+    }
+    
+    Container_Boundary(data_boundary, "Data Layer") {
+        ContainerDb(h2_db, "H2 Database", "H2 In-Memory/File", "Development database for tutorial storage", $sprite="database")
+        ContainerDb(postgres_db, "PostgreSQL", "PostgreSQL 15+", "Production database for tutorial storage", $sprite="database")
+    }
+    
+    Container_Boundary(external_boundary, "External Services") {
+        Container(file_storage, "Media Storage", "Cloud Storage", "Stores tutorial images and videos")
+        Container(cdn, "Content Delivery", "CDN", "Delivers static content globally")
+    }
+}
+
+System_Ext(notification_system, "Push Notifications", "Firebase/APNs for tutorial updates")
+System_Ext(analytics, "Analytics Platform", "Google Analytics for usage tracking")
+
+' User interactions
+Rel(user, flutter_app, "Uses", "HTTPS/Mobile App")
+
+' Internal system relationships
+Rel(flutter_app, spring_api, "API Calls", "JSON/HTTPS, RESTful")
+Rel(spring_api, business_layer, "Service Calls", "Method Invocation")
+Rel(business_layer, h2_db, "CRUD Operations", "JDBC/JPA, Development")
+Rel(business_layer, postgres_db, "CRUD Operations", "JDBC/JPA, Production")
+
+' External service relationships
+Rel(flutter_app, file_storage, "Upload Media", "HTTPS")
+Rel(flutter_app, cdn, "Load Content", "HTTPS")
+Rel(flutter_app, notification_system, "Receive Updates", "Push Notifications")
+Rel(flutter_app, analytics, "Track Usage", "Analytics SDK")
+
+' Data flow notes
+Rel_Back(spring_api, flutter_app, "Data Response", "JSON")
+Rel_Back(file_storage, flutter_app, "Media URLs", "HTTPS")
+
+SHOW_LEGEND()
+
+@enduml

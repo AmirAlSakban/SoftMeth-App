@@ -99,5 +99,11 @@ secrets.json
 keystore.properties
 
 # Temporary files
+test/temp/
+.temp/
+
+# Code generation artifacts 
+*.g.dart
+*.freezed.dart
 *.tmp
 *.temp

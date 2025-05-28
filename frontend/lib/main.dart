@@ -7,6 +7,8 @@ void main() {
 }
 
 class TutorialManagementApp extends StatelessWidget {
+  const TutorialManagementApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

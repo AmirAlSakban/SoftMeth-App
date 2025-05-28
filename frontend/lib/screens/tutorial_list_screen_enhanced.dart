@@ -9,6 +9,8 @@ import 'package:tutorial_management_app/widgets/search_filter_bar.dart';
 import 'package:tutorial_management_app/widgets/loading_states.dart';
 
 class TutorialListScreen extends StatefulWidget {
+  const TutorialListScreen({super.key});
+
   @override
   _TutorialListScreenState createState() => _TutorialListScreenState();
 }
@@ -113,7 +115,7 @@ class _TutorialListScreenState extends State<TutorialListScreen> {
   void _navigateToAddTutorial() async {
     final result = await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => AddTutorialScreen()),
+      MaterialPageRoute(builder: (context) => const AddTutorialScreen()),
     );
     
     if (result == true) {
@@ -145,7 +147,7 @@ class _TutorialListScreenState extends State<TutorialListScreen> {
               expandedHeight: 120,
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
-                title: Text('Tutorial Management'),
+                title: const Text('Tutorial Management'),
                 background: Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -163,7 +165,7 @@ class _TutorialListScreenState extends State<TutorialListScreen> {
                   tooltip: _showPublishedOnly ? 'Show All' : 'Show Published Only',
                 ),
                 IconButton(
-                  icon: Icon(Icons.refresh),
+                  icon: const Icon(Icons.refresh),
                   onPressed: _loadTutorials,
                 ),
               ],
@@ -181,7 +183,7 @@ class _TutorialListScreenState extends State<TutorialListScreen> {
             // Search & Filter Bar
             SliverToBoxAdapter(
               child: Padding(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: SearchFilterBar(
                   searchController: _searchController,
                   showPublishedOnly: _showPublishedOnly,
@@ -195,7 +197,7 @@ class _TutorialListScreenState extends State<TutorialListScreen> {
             
             // Loading State
             if (_isLoading)
-              SliverFillRemaining(
+              const SliverFillRemaining(
                 child: LoadingIndicator(message: 'Loading tutorials...'),
               )
             // Error State
@@ -228,7 +230,7 @@ class _TutorialListScreenState extends State<TutorialListScreen> {
             // Tutorial List
             else
               SliverPadding(
-                padding: EdgeInsets.fromLTRB(16, 0, 16, 80),
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 80),
                 sliver: SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (context, index) {
@@ -251,17 +253,17 @@ class _TutorialListScreenState extends State<TutorialListScreen> {
                           final confirm = await showDialog<bool>(
                             context: context,
                             builder: (context) => AlertDialog(
-                              title: Text('Delete Tutorial'),
+                              title: const Text('Delete Tutorial'),
                               content: Text('Are you sure you want to delete "${tutorial.title}"?'),
                               actions: [
                                 TextButton(
                                   onPressed: () => Navigator.pop(context, false),
-                                  child: Text('CANCEL'),
+                                  child: const Text('CANCEL'),
                                 ),
                                 TextButton(
                                   onPressed: () => Navigator.pop(context, true),
-                                  child: Text('DELETE'),
                                   style: TextButton.styleFrom(foregroundColor: Colors.red),
+                                  child: Text('DELETE'),
                                 ),
                               ],
                             ),
@@ -271,7 +273,7 @@ class _TutorialListScreenState extends State<TutorialListScreen> {
                             try {
                               await _apiService.deleteTutorial(tutorial.id!);
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('Tutorial deleted'))
+                                const SnackBar(content: Text('Tutorial deleted'))
                               );
                               _loadTutorials();
                             } catch (e) {
@@ -295,8 +297,8 @@ class _TutorialListScreenState extends State<TutorialListScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _navigateToAddTutorial,
-        child: Icon(Icons.add),
         tooltip: 'Add Tutorial',
+        child: Icon(Icons.add),
       ),
     );
   }

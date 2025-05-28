@@ -26,12 +26,12 @@ class CommentsSection extends StatefulWidget {
   final String? placeholder;
 
   const CommentsSection({
-    Key? key,
+    super.key,
     required this.comments,
     this.onAddComment,
     this.onReplyToComment,
     this.placeholder,
-  }) : super(key: key);
+  });
 
   @override
   State<CommentsSection> createState() => _CommentsSectionState();
@@ -86,8 +86,8 @@ class _CommentsSectionState extends State<CommentsSection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
           child: Text(
             'Comments',
             style: TextStyle(
@@ -105,7 +105,7 @@ class _CommentsSectionState extends State<CommentsSection> {
             child: Center(
               child: Text(
                 widget.placeholder ?? 'No comments yet. Be the first to comment!',
-                style: TextStyle(
+                style: const TextStyle(
                   color: AppTheme.textSecondaryColor,
                   fontStyle: FontStyle.italic,
                 ),
@@ -114,10 +114,10 @@ class _CommentsSectionState extends State<CommentsSection> {
           )
         else
           ListView.separated(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: widget.comments.length,
-            separatorBuilder: (context, index) => Divider(height: 1),
+            separatorBuilder: (context, index) => const Divider(height: 1),
             itemBuilder: (context, index) {
               final comment = widget.comments[index];
               return _buildCommentTile(comment);
@@ -126,10 +126,10 @@ class _CommentsSectionState extends State<CommentsSection> {
           
         // Add new comment
         Card(
-          margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+          margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
-            side: BorderSide(
+            side: const BorderSide(
               color: AppTheme.borderColor,
               width: 1,
             ),
@@ -142,8 +142,8 @@ class _CommentsSectionState extends State<CommentsSection> {
                 // Reply indicator
                 if (_replyToAuthorName != null)
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    margin: EdgeInsets.only(bottom: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    margin: const EdgeInsets.only(bottom: 8),
                     decoration: BoxDecoration(
                       color: AppTheme.primaryColor.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(8),
@@ -153,17 +153,17 @@ class _CommentsSectionState extends State<CommentsSection> {
                         Expanded(
                           child: Text(
                             'Replying to $_replyToAuthorName',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 14,
                               color: AppTheme.primaryColor,
                             ),
                           ),
                         ),
                         IconButton(
-                          icon: Icon(Icons.close, size: 16),
+                          icon: const Icon(Icons.close, size: 16),
                           onPressed: _cancelReply,
                           padding: EdgeInsets.zero,
-                          constraints: BoxConstraints(minWidth: 24, minHeight: 24),
+                          constraints: const BoxConstraints(minWidth: 24, minHeight: 24),
                           color: AppTheme.primaryColor,
                         ),
                       ],
@@ -191,12 +191,12 @@ class _CommentsSectionState extends State<CommentsSection> {
                           hintText: 'Add a comment...',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: AppTheme.borderColor,
                               width: 1,
                             ),
                           ),
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                             horizontal: 16,
                             vertical: 12,
                           ),
@@ -282,7 +282,7 @@ class _CommentsSectionState extends State<CommentsSection> {
                     if (!isReply && widget.onReplyToComment != null)
                       GestureDetector(
                         onTap: () => _startReplyTo(comment.id, comment.authorName),
-                        child: Text(
+                        child: const Text(
                           'Reply',
                           style: TextStyle(
                             color: AppTheme.primaryColor,

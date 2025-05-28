@@ -9,9 +9,9 @@ class AnalyticsDashboardScreen extends StatefulWidget {
   final List<Tutorial> tutorials;
   
   const AnalyticsDashboardScreen({
-    Key? key,
+    super.key,
     required this.tutorials,
-  }) : super(key: key);
+  });
 
   @override
   State<AnalyticsDashboardScreen> createState() => _AnalyticsDashboardScreenState();
@@ -84,11 +84,11 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Analytics Dashboard'),
+        title: const Text('Analytics Dashboard'),
         elevation: 0,
         bottom: TabBar(
           controller: _tabController,
-          tabs: [
+          tabs: const [
             Tab(text: 'Overview'),
             Tab(text: 'Categories'),
             Tab(text: 'Authors'),
@@ -111,7 +111,7 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
   
   Widget _buildOverviewTab() {
     return ListView(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       children: [
         // Summary cards
         Row(
@@ -124,7 +124,7 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
                 AppTheme.primaryColor,
               ),
             ),
-            SizedBox(width: 16),
+            const SizedBox(width: 16),
             Expanded(
               child: _buildSummaryCard(
                 'Published',
@@ -135,7 +135,7 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
             ),
           ],
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Row(
           children: [
             Expanded(
@@ -146,7 +146,7 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
                 Colors.grey,
               ),
             ),
-            SizedBox(width: 16),
+            const SizedBox(width: 16),
             Expanded(
               child: _buildSummaryCard(
                 'Featured',
@@ -160,8 +160,8 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
         
         // Publication status chart
         if (_totalTutorials > 0) ...[
-          SizedBox(height: 24),
-          Text(
+          const SizedBox(height: 24),
+          const Text(
             'Publication Status',
             style: TextStyle(
               fontSize: 18,
@@ -169,10 +169,10 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
               color: AppTheme.textPrimaryColor,
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Container(
             height: 250,
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
@@ -181,7 +181,7 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
                   color: Colors.black.withOpacity(0.05),
                   blurRadius: 10,
                   spreadRadius: 0,
-                  offset: Offset(0, 2),
+                  offset: const Offset(0, 2),
                 ),
               ],
             ),
@@ -192,10 +192,10 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
                 sections: [
                   PieChartSectionData(
                     value: _publishedTutorials.toDouble(),
-                    title: 'Published\n${_publishedTutorials}',
+                    title: 'Published\n$_publishedTutorials',
                     color: AppTheme.successColor,
                     radius: 100,
-                    titleStyle: TextStyle(
+                    titleStyle: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -203,10 +203,10 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
                   ),
                   PieChartSectionData(
                     value: _draftTutorials.toDouble(),
-                    title: 'Drafts\n${_draftTutorials}',
+                    title: 'Drafts\n$_draftTutorials',
                     color: Colors.grey,
                     radius: 100,
-                    titleStyle: TextStyle(
+                    titleStyle: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -220,8 +220,8 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
         
         // Difficulty distribution
         if (_difficultyLevelsCount.isNotEmpty) ...[
-          SizedBox(height: 24),
-          Text(
+          const SizedBox(height: 24),
+          const Text(
             'Difficulty Distribution',
             style: TextStyle(
               fontSize: 18,
@@ -229,24 +229,24 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
               color: AppTheme.textPrimaryColor,
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           StatisticsWidget(
             data: _difficultyLevelsCount,
           ),
         ],
         
-        SizedBox(height: 24),
+        const SizedBox(height: 24),
       ],
     );
   }
   
   Widget _buildCategoriesTab() {
     return ListView(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       children: [
         // Top categories
         if (_topCategories.isNotEmpty) ...[
-          Text(
+          const Text(
             'Top Categories',
             style: TextStyle(
               fontSize: 18,
@@ -254,12 +254,12 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
               color: AppTheme.textPrimaryColor,
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           
           // Categories bar chart
           Container(
             height: 300,
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
@@ -268,7 +268,7 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
                   color: Colors.black.withOpacity(0.05),
                   blurRadius: 10,
                   spreadRadius: 0,
-                  offset: Offset(0, 2),
+                  offset: const Offset(0, 2),
                 ),
               ],
             ),
@@ -287,14 +287,14 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
                             padding: const EdgeInsets.only(top: 8.0),
                             child: Text(
                               _topCategories[value.toInt()].key,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: AppTheme.textSecondaryColor,
                                 fontSize: 12,
                               ),
                             ),
                           );
                         }
-                        return Text('');
+                        return const Text('');
                       },
                       reservedSize: 40,
                     ),
@@ -307,10 +307,10 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
                           ? (_topCategories[0].value / 5).ceilToDouble() 
                           : 2,
                       getTitlesWidget: (value, meta) {
-                        if (value == 0) return Text('');
+                        if (value == 0) return const Text('');
                         return Text(
                           value.toInt().toString(),
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: AppTheme.textSecondaryColor,
                             fontSize: 12,
                           ),
@@ -318,8 +318,8 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
                       },
                     ),
                   ),
-                  rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                  topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
                 ),
                 borderData: FlBorderData(show: false),
                 gridData: FlGridData(
@@ -337,7 +337,7 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
                     getTooltipItem: (group, groupIndex, rod, rodIndex) {
                       return BarTooltipItem(
                         '${_topCategories[groupIndex].key}: ${rod.toY.toInt()}',
-                        TextStyle(color: Colors.white),
+                        const TextStyle(color: Colors.white),
                       );
                     },
                   ),
@@ -346,10 +346,10 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
             ),
           ),
           
-          SizedBox(height: 24),
+          const SizedBox(height: 24),
           
           // All categories list
-          Text(
+          const Text(
             'All Categories',
             style: TextStyle(
               fontSize: 18,
@@ -357,13 +357,13 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
               color: AppTheme.textPrimaryColor,
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           
           ...List.generate(_categoriesCount.length, (index) {
             final entry = _categoriesCount.entries.toList()[index];
             return Container(
-              margin: EdgeInsets.only(bottom: 12),
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              margin: const EdgeInsets.only(bottom: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(8),
@@ -372,7 +372,7 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
                     color: Colors.black.withOpacity(0.03),
                     blurRadius: 4,
                     spreadRadius: 0,
-                    offset: Offset(0, 2),
+                    offset: const Offset(0, 2),
                   ),
                 ],
               ),
@@ -388,31 +388,31 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
                     child: Center(
                       child: Text(
                         entry.key.substring(0, 1).toUpperCase(),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           color: AppTheme.primaryColor,
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(width: 16),
+                  const SizedBox(width: 16),
                   Expanded(
                     child: Text(
                       entry.key,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                     decoration: BoxDecoration(
                       color: AppTheme.primaryColor.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Text(
                       '${entry.value}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: AppTheme.primaryColor,
                       ),
@@ -423,7 +423,7 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
             );
           }),
         ] else ...[
-          Center(
+          const Center(
             child: Padding(
               padding: EdgeInsets.all(32),
               child: Text(
@@ -439,11 +439,11 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
   
   Widget _buildAuthorsTab() {
     return ListView(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       children: [
         // Top authors
         if (_topAuthors.isNotEmpty) ...[
-          Text(
+          const Text(
             'Top Authors',
             style: TextStyle(
               fontSize: 18,
@@ -451,7 +451,7 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
               color: AppTheme.textPrimaryColor,
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           
           // Top authors cards
           ...List.generate(_topAuthors.take(5).length, (index) {
@@ -466,8 +466,8 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
                         : AppTheme.primaryColor;
                         
             return Container(
-              margin: EdgeInsets.only(bottom: 16),
-              padding: EdgeInsets.all(16),
+              margin: const EdgeInsets.only(bottom: 16),
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
@@ -476,7 +476,7 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
                     color: Colors.black.withOpacity(0.05),
                     blurRadius: 6,
                     spreadRadius: 0,
-                    offset: Offset(0, 2),
+                    offset: const Offset(0, 2),
                   ),
                 ],
               ),
@@ -500,26 +500,26 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
                       ),
                     ),
                   ),
-                  SizedBox(width: 16),
+                  const SizedBox(width: 16),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           entry.key,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
                           ),
                         ),
-                        SizedBox(height: 6),
+                        const SizedBox(height: 6),
                         Text(
                           '${entry.value} tutorials (${percentage.toStringAsFixed(1)}%)',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: AppTheme.textSecondaryColor,
                           ),
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         // Progress bar
                         Stack(
                           children: [
@@ -549,10 +549,10 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
             );
           }),
           
-          SizedBox(height: 24),
+          const SizedBox(height: 24),
           
           // All authors
-          Text(
+          const Text(
             'All Authors',
             style: TextStyle(
               fontSize: 18,
@@ -560,12 +560,12 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
               color: AppTheme.textPrimaryColor,
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           
           GridView.builder(
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 1.5,
               crossAxisSpacing: 16,
@@ -577,7 +577,7 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
               final color = Colors.primaries[index % Colors.primaries.length];
               
               return Container(
-                padding: EdgeInsets.all(12),
+                padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
@@ -586,7 +586,7 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
                       color: Colors.black.withOpacity(0.03),
                       blurRadius: 4,
                       spreadRadius: 0,
-                      offset: Offset(0, 2),
+                      offset: const Offset(0, 2),
                     ),
                   ],
                 ),
@@ -611,20 +611,20 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
                         ),
                       ),
                     ),
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     Text(
                       entry.key,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 14,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Text(
                       '${entry.value} ${entry.value == 1 ? 'tutorial' : 'tutorials'}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: AppTheme.textSecondaryColor,
                         fontSize: 12,
                       ),
@@ -635,7 +635,7 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
             },
           ),
         ] else ...[
-          Center(
+          const Center(
             child: Padding(
               padding: EdgeInsets.all(32),
               child: Text(
@@ -646,14 +646,14 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
           ),
         ],
         
-        SizedBox(height: 24),
+        const SizedBox(height: 24),
       ],
     );
   }
   
   Widget _buildSummaryCard(String title, int value, IconData icon, Color color) {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -662,7 +662,7 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
             color: Colors.black.withOpacity(0.05),
             blurRadius: 6,
             spreadRadius: 0,
-            offset: Offset(0, 2),
+            offset: const Offset(0, 2),
           ),
         ],
       ),
@@ -682,19 +682,19 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
               ),
             ],
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Text(
             value.toString(),
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.bold,
               color: AppTheme.textPrimaryColor,
             ),
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               color: AppTheme.textSecondaryColor,
             ),
           ),
@@ -714,7 +714,7 @@ class _AnalyticsDashboardScreenState extends State<AnalyticsDashboardScreen> wit
             toY: _topCategories[index].value.toDouble(),
             color: AppTheme.primaryColor,
             width: 20,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(6)),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(6)),
           ),
         ],
       );

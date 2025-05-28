@@ -8,11 +8,11 @@ class StatisticsWidget extends StatelessWidget {
   final bool showChart;
 
   const StatisticsWidget({
-    Key? key,
+    super.key,
     required this.data,
     this.title,
     this.showChart = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class StatisticsWidget extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 16.0),
                 child: Text(
                   title!,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: AppTheme.textPrimaryColor,
@@ -61,14 +61,14 @@ class StatisticsWidget extends StatelessWidget {
             children: [
               Text(
                 entry.key,
-                style: TextStyle(
+                style: const TextStyle(
                   color: AppTheme.textSecondaryColor,
                   fontWeight: FontWeight.w500,
                 ),
               ),
               Text(
                 entry.value.toString(),
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: AppTheme.textPrimaryColor,
@@ -88,7 +88,7 @@ class StatisticsWidget extends StatelessWidget {
     return Column(
       children: data.entries.map((entry) {
         // Skip non-numeric values
-        if (entry.value is! num) return SizedBox.shrink();
+        if (entry.value is! num) return const SizedBox.shrink();
         
         final value = entry.value as num;
         final percentage = maxValue > 0 ? value / maxValue : 0;
@@ -106,14 +106,14 @@ class StatisticsWidget extends StatelessWidget {
                 children: [
                   Text(
                     entry.key,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
                       color: AppTheme.textSecondaryColor,
                     ),
                   ),
                   Text(
                     value.toString(),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                       color: AppTheme.textPrimaryColor,

@@ -7,11 +7,11 @@ class TutorialContentEditor extends StatefulWidget {
   final String? hintText;
   
   const TutorialContentEditor({
-    Key? key,
+    super.key,
     this.initialValue,
     this.onChanged,
     this.hintText,
-  }) : super(key: key);
+  });
 
   @override
   State<TutorialContentEditor> createState() => _TutorialContentEditorState();
@@ -139,12 +139,12 @@ class _TutorialContentEditorState extends State<TutorialContentEditor> {
                 BoxShadow(
                   color: Colors.black.withOpacity(0.1),
                   blurRadius: 4,
-                  offset: Offset(0, 2),
+                  offset: const Offset(0, 2),
                 ),
               ],
             ),
-            margin: EdgeInsets.only(bottom: 8),
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            margin: const EdgeInsets.only(bottom: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
@@ -153,11 +153,11 @@ class _TutorialContentEditorState extends State<TutorialContentEditor> {
                   _buildFormatButton('bold', 'B', FontWeight.bold),
                   _buildFormatButton('italic', 'I', FontWeight.normal, isItalic: true),
                   _buildFormatButton('code', '< >', FontWeight.normal, icon: Icons.code),
-                  VerticalDivider(width: 16, thickness: 1, color: AppTheme.borderColor),
+                  const VerticalDivider(width: 16, thickness: 1, color: AppTheme.borderColor),
                   _buildFormatButton('h1', 'H1', FontWeight.bold),
                   _buildFormatButton('h2', 'H2', FontWeight.bold),
                   _buildFormatButton('h3', 'H3', FontWeight.bold),
-                  VerticalDivider(width: 16, thickness: 1, color: AppTheme.borderColor),
+                  const VerticalDivider(width: 16, thickness: 1, color: AppTheme.borderColor),
                   _buildFormatButton('link', 'Link', FontWeight.normal, icon: Icons.link),
                   _buildFormatButton('bullet', 'List', FontWeight.normal, icon: Icons.format_list_bulleted),
                   _buildFormatButton('number', '1.', FontWeight.normal, icon: Icons.format_list_numbered),
@@ -180,7 +180,7 @@ class _TutorialContentEditorState extends State<TutorialContentEditor> {
             minLines: 10,
             decoration: InputDecoration(
               hintText: widget.hintText ?? 'Write your tutorial content here...',
-              contentPadding: EdgeInsets.all(16),
+              contentPadding: const EdgeInsets.all(16),
               border: InputBorder.none,
             ),
             onChanged: (value) {
@@ -206,7 +206,7 @@ class _TutorialContentEditorState extends State<TutorialContentEditor> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
+              const Padding(
                 padding: EdgeInsets.only(top: 24, bottom: 8),
                 child: Text(
                   'Preview',
@@ -219,7 +219,7 @@ class _TutorialContentEditorState extends State<TutorialContentEditor> {
               ),
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(8),
@@ -239,7 +239,7 @@ class _TutorialContentEditorState extends State<TutorialContentEditor> {
     return GestureDetector(
       onTap: () => _handleFormatOption(option),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
           color: isActive ? AppTheme.primaryColor.withOpacity(0.1) : Colors.transparent,
           borderRadius: BorderRadius.circular(4),
@@ -276,8 +276,8 @@ class _TutorialContentEditorState extends State<TutorialContentEditor> {
       
       if (line.startsWith('# ')) {
         spans.add(TextSpan(
-          text: line.substring(2) + '\n',
-          style: TextStyle(
+          text: '${line.substring(2)}\n',
+          style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
             height: 1.5,
@@ -285,8 +285,8 @@ class _TutorialContentEditorState extends State<TutorialContentEditor> {
         ));
       } else if (line.startsWith('## ')) {
         spans.add(TextSpan(
-          text: line.substring(3) + '\n',
-          style: TextStyle(
+          text: '${line.substring(3)}\n',
+          style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
             height: 1.5,
@@ -294,8 +294,8 @@ class _TutorialContentEditorState extends State<TutorialContentEditor> {
         ));
       } else if (line.startsWith('### ')) {
         spans.add(TextSpan(
-          text: line.substring(4) + '\n',
-          style: TextStyle(
+          text: '${line.substring(4)}\n',
+          style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
             height: 1.5,
@@ -303,12 +303,12 @@ class _TutorialContentEditorState extends State<TutorialContentEditor> {
         ));
       } else if (line.startsWith('- ')) {
         spans.add(TextSpan(
-          text: '• ' + line.substring(2) + '\n',
-          style: TextStyle(height: 1.5),
+          text: '• ${line.substring(2)}\n',
+          style: const TextStyle(height: 1.5),
         ));
       } else if (line.startsWith('> ')) {
         spans.add(TextSpan(
-          text: line.substring(2) + '\n',
+          text: '${line.substring(2)}\n',
           style: TextStyle(
             fontStyle: FontStyle.italic,
             color: Colors.grey[700],
@@ -332,7 +332,7 @@ class _TutorialContentEditorState extends State<TutorialContentEditor> {
           
           lineSpans.add(TextSpan(
             text: match.group(1),
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ));
           
           lastEnd = match.end;
@@ -349,7 +349,7 @@ class _TutorialContentEditorState extends State<TutorialContentEditor> {
         }
         
         // Add line break
-        lineSpans.add(TextSpan(text: '\n'));
+        lineSpans.add(const TextSpan(text: '\n'));
         
         // Add the line spans to the main spans list
         spans.addAll(lineSpans);
@@ -358,7 +358,7 @@ class _TutorialContentEditorState extends State<TutorialContentEditor> {
     
     return RichText(
       text: TextSpan(
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 16,
           color: Colors.black,
           height: 1.5,

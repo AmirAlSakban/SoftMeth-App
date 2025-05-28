@@ -5,7 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 class AddTutorialScreen extends StatefulWidget {
-  const AddTutorialScreen({Key? key}) : super(key: key);
+  const AddTutorialScreen({super.key});
 
   @override
   _AddTutorialScreenState createState() => _AddTutorialScreenState();
@@ -98,7 +98,7 @@ class _AddTutorialScreenState extends State<AddTutorialScreen> {
       );
       
       // Simulate API delay
-      await Future.delayed(Duration(seconds: 1));
+      await Future.delayed(const Duration(seconds: 1));
       
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -132,7 +132,7 @@ class _AddTutorialScreenState extends State<AddTutorialScreen> {
       spacing: 8.0,
       runSpacing: 4.0,
       children: _popularCategories.map((category) => ActionChip(
-        avatar: Icon(Icons.category, size: 18, color: AppTheme.primaryColor),
+        avatar: const Icon(Icons.category, size: 18, color: AppTheme.primaryColor),
         label: Text(category),
         onPressed: () {
           setState(() {
@@ -188,7 +188,7 @@ class _AddTutorialScreenState extends State<AddTutorialScreen> {
               // Tutorial Preview Card
               if (_titleController.text.isNotEmpty)
                 Card(
-                  margin: EdgeInsets.only(bottom: 16),
+                  margin: const EdgeInsets.only(bottom: 16),
                   clipBehavior: Clip.antiAlias,
                   elevation: 3,
                   child: Column(
@@ -196,9 +196,9 @@ class _AddTutorialScreenState extends State<AddTutorialScreen> {
                     children: [
                       // Preview header
                       Container(
-                        padding: EdgeInsets.all(12),
+                        padding: const EdgeInsets.all(12),
                         color: AppTheme.primaryColor.withOpacity(0.1),
-                        child: Row(
+                        child: const Row(
                           children: [
                             Icon(Icons.preview, color: AppTheme.primaryColor),
                             SizedBox(width: 8),
@@ -240,7 +240,7 @@ class _AddTutorialScreenState extends State<AddTutorialScreen> {
                                     _titleController.text.isEmpty 
                                         ? 'Tutorial Title' 
                                         : _titleController.text,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -248,12 +248,12 @@ class _AddTutorialScreenState extends State<AddTutorialScreen> {
                                 ),
                                 if (_isFeatured)
                                   Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                     decoration: BoxDecoration(
                                       color: AppTheme.warningColor,
                                       borderRadius: BorderRadius.circular(12),
                                     ),
-                                    child: Text(
+                                    child: const Text(
                                       'FEATURED',
                                       style: TextStyle(
                                         color: Colors.white,
@@ -262,16 +262,16 @@ class _AddTutorialScreenState extends State<AddTutorialScreen> {
                                       ),
                                     ),
                                   ),
-                                SizedBox(width: 8),
+                                const SizedBox(width: 8),
                                 Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                   decoration: BoxDecoration(
                                     color: _isPublished ? AppTheme.successColor : Colors.grey,
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                   child: Text(
                                     _isPublished ? 'PUBLISHED' : 'DRAFT',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 10,
                                       fontWeight: FontWeight.bold,
@@ -280,7 +280,7 @@ class _AddTutorialScreenState extends State<AddTutorialScreen> {
                                 ),
                               ],
                             ),
-                            SizedBox(height: 8),
+                            const SizedBox(height: 8),
                             Text(
                               _descriptionController.text.isEmpty 
                                   ? 'Tutorial description will appear here...' 
@@ -289,30 +289,30 @@ class _AddTutorialScreenState extends State<AddTutorialScreen> {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(color: Colors.grey[600]),
                             ),
-                            SizedBox(height: 16),
+                            const SizedBox(height: 16),
                             Row(
                               children: [
                                 if (_categoryController.text.isNotEmpty) ...[
                                   Icon(Icons.category, size: 16, color: Colors.grey[600]),
-                                  SizedBox(width: 4),
+                                  const SizedBox(width: 4),
                                   Text(
                                     _categoryController.text,
                                     style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                                   ),
-                                  SizedBox(width: 16),
+                                  const SizedBox(width: 16),
                                 ],
                                 if (_authorController.text.isNotEmpty) ...[
                                   Icon(Icons.person, size: 16, color: Colors.grey[600]),
-                                  SizedBox(width: 4),
+                                  const SizedBox(width: 4),
                                   Text(
                                     _authorController.text,
                                     style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                                   ),
-                                  SizedBox(width: 16),
+                                  const SizedBox(width: 16),
                                 ],
                                 if (_durationController.text.isNotEmpty) ...[
                                   Icon(Icons.access_time, size: 16, color: Colors.grey[600]),
-                                  SizedBox(width: 4),
+                                  const SizedBox(width: 4),
                                   Text(
                                     '${_durationController.text} min',
                                     style: TextStyle(fontSize: 12, color: Colors.grey[600]),
@@ -329,7 +329,7 @@ class _AddTutorialScreenState extends State<AddTutorialScreen> {
 
               // Basic Information Card
               Card(
-                margin: EdgeInsets.only(bottom: 16),
+                margin: const EdgeInsets.only(bottom: 16),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
@@ -428,7 +428,7 @@ class _AddTutorialScreenState extends State<AddTutorialScreen> {
                         ],
                       ),
                       const SizedBox(height: 16),
-                      Text(
+                      const Text(
                         'Suggested Categories:',
                         style: TextStyle(
                           fontSize: 14,
@@ -444,7 +444,7 @@ class _AddTutorialScreenState extends State<AddTutorialScreen> {
 
               // Tutorial Details Card
               Card(
-                margin: EdgeInsets.only(bottom: 16),
+                margin: const EdgeInsets.only(bottom: 16),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
@@ -513,7 +513,7 @@ class _AddTutorialScreenState extends State<AddTutorialScreen> {
 
               // Media Card
               Card(
-                margin: EdgeInsets.only(bottom: 16),
+                margin: const EdgeInsets.only(bottom: 16),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
@@ -532,7 +532,7 @@ class _AddTutorialScreenState extends State<AddTutorialScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'Featured Image',
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
@@ -564,7 +564,7 @@ class _AddTutorialScreenState extends State<AddTutorialScreen> {
                                             width: double.infinity,
                                           ),
                                   )
-                                : Center(
+                                : const Center(
                                     child: Column(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
@@ -601,7 +601,8 @@ class _AddTutorialScreenState extends State<AddTutorialScreen> {
                         onChanged: (value) => setState(() {}),
                         validator: (value) {
                           if (value != null && value.isNotEmpty) {
-                            if (!Uri.tryParse(value)?.hasAbsolutePath == true) {
+                            final uri = Uri.tryParse(value);
+                            if (uri == null || !uri.hasScheme) {
                               return 'Enter a valid URL';
                             }
                           }
@@ -620,7 +621,8 @@ class _AddTutorialScreenState extends State<AddTutorialScreen> {
                         ),
                         validator: (value) {
                           if (value != null && value.isNotEmpty) {
-                            if (!Uri.tryParse(value)?.hasAbsolutePath == true) {
+                            final uri = Uri.tryParse(value);
+                            if (uri == null || !uri.hasScheme) {
                               return 'Enter a valid URL';
                             }
                           }
@@ -634,7 +636,7 @@ class _AddTutorialScreenState extends State<AddTutorialScreen> {
 
               // Publication Settings Card
               Card(
-                margin: EdgeInsets.only(bottom: 24),
+                margin: const EdgeInsets.only(bottom: 24),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(

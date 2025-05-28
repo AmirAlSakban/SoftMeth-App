@@ -5,11 +5,15 @@
 .DS_Store
 Thumbs.db
 
-# Documentation files (except README.md)
+# Documentation files
 *.md
 !README.md
 !backend/README.md
 !frontend/README.md
+!SETUP_GUIDE.md
+!REQUIREMENTS.md
+!DEVELOPMENT_GUIDE.md
+!TESTING_GUIDE.md
 *.txt
 *.docx
 *.doc

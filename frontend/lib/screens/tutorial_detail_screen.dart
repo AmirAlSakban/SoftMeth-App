@@ -6,7 +6,7 @@ import 'package:tutorial_management_app/screens/edit_tutorial_screen.dart';
 class TutorialDetailScreen extends StatefulWidget {
   final Tutorial tutorial;
 
-  TutorialDetailScreen({required this.tutorial});
+  const TutorialDetailScreen({super.key, required this.tutorial});
 
   @override
   _TutorialDetailScreenState createState() => _TutorialDetailScreenState();
@@ -27,7 +27,7 @@ class _TutorialDetailScreenState extends State<TutorialDetailScreen> {
       await _apiService.deleteTutorial(_tutorial.id!);
       Navigator.pop(context, true);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Tutorial deleted successfully')),
+        const SnackBar(content: Text('Tutorial deleted successfully')),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -41,15 +41,15 @@ class _TutorialDetailScreenState extends State<TutorialDetailScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Delete Tutorial'),
+          title: const Text('Delete Tutorial'),
           content: Text('Are you sure you want to delete "${_tutorial.title}"?'),
           actions: [
             TextButton(
-              child: Text('CANCEL'),
+              child: const Text('CANCEL'),
               onPressed: () => Navigator.of(context).pop(),
             ),
             TextButton(
-              child: Text('DELETE', style: TextStyle(color: Colors.red)),
+              child: const Text('DELETE', style: TextStyle(color: Colors.red)),
               onPressed: () {
                 Navigator.of(context).pop();
                 _deleteTutorial();
@@ -65,10 +65,10 @@ class _TutorialDetailScreenState extends State<TutorialDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tutorial Details'),
+        title: const Text('Tutorial Details'),
         actions: [
           IconButton(
-            icon: Icon(Icons.edit),
+            icon: const Icon(Icons.edit),
             onPressed: () async {
               final result = await Navigator.push(
                 context,
@@ -84,13 +84,13 @@ class _TutorialDetailScreenState extends State<TutorialDetailScreen> {
             },
           ),
           IconButton(
-            icon: Icon(Icons.delete),
+            icon: const Icon(Icons.delete),
             onPressed: _showDeleteDialog,
           ),
         ],
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -100,7 +100,7 @@ class _TutorialDetailScreenState extends State<TutorialDetailScreen> {
                 Expanded(
                   child: Text(
                     _tutorial.title,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
@@ -108,13 +108,13 @@ class _TutorialDetailScreenState extends State<TutorialDetailScreen> {
                 ),
                 if (_tutorial.featured)
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    margin: EdgeInsets.only(left: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    margin: const EdgeInsets.only(left: 8),
                     decoration: BoxDecoration(
                       color: Colors.orange,
                       borderRadius: BorderRadius.circular(16),
                     ),
-                    child: Text(
+                    child: const Text(
                       'FEATURED',
                       style: TextStyle(
                         color: Colors.white,
@@ -125,25 +125,25 @@ class _TutorialDetailScreenState extends State<TutorialDetailScreen> {
                   ),
               ],
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             
             // Status badge
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
                 color: _tutorial.published ? Colors.green : Colors.grey,
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Text(
                 _tutorial.published ? 'PUBLISHED' : 'DRAFT',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
 
             // Image if available
             if (_tutorial.imageUrl != null && _tutorial.imageUrl!.isNotEmpty) ...[
@@ -161,39 +161,39 @@ class _TutorialDetailScreenState extends State<TutorialDetailScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
             ],
 
             // Description
-            Text(
+            const Text(
               'Description',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               _tutorial.description,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
                 height: 1.5,
               ),
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
 
             // Details
             _buildDetailCard(),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
 
             // Video link if available
             if (_tutorial.videoUrl != null && _tutorial.videoUrl!.isNotEmpty) ...[
               Card(
                 child: ListTile(
-                  leading: Icon(Icons.play_circle_fill, color: Colors.red),
-                  title: Text('Watch Video'),
+                  leading: const Icon(Icons.play_circle_fill, color: Colors.red),
+                  title: const Text('Watch Video'),
                   subtitle: Text(_tutorial.videoUrl!),
-                  trailing: Icon(Icons.open_in_new),
+                  trailing: const Icon(Icons.open_in_new),
                   onTap: () {
                     // TODO: Open video URL in browser or video player
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -202,7 +202,7 @@ class _TutorialDetailScreenState extends State<TutorialDetailScreen> {
                   },
                 ),
               ),
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
             ],
 
             // Metadata
@@ -216,18 +216,18 @@ class _TutorialDetailScreenState extends State<TutorialDetailScreen> {
   Widget _buildDetailCard() {
     return Card(
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Details',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             if (_tutorial.category != null) _buildDetailRow('Category', _tutorial.category!),
             if (_tutorial.author != null) _buildDetailRow('Author', _tutorial.author!),
             if (_tutorial.difficultyLevel != null) _buildDetailRow('Difficulty', _tutorial.difficultyLevel!),
@@ -242,18 +242,18 @@ class _TutorialDetailScreenState extends State<TutorialDetailScreen> {
   Widget _buildMetadataCard() {
     return Card(
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Metadata',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             _buildDetailRow('ID', _tutorial.id?.toString() ?? 'N/A'),
             if (_tutorial.createdAt != null)
               _buildDetailRow('Created', _formatDateTime(_tutorial.createdAt!)),
@@ -267,7 +267,7 @@ class _TutorialDetailScreenState extends State<TutorialDetailScreen> {
 
   Widget _buildDetailRow(String label, String value) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(bottom: 8),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

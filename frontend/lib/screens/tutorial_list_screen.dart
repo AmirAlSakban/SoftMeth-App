@@ -6,6 +6,8 @@ import 'package:tutorial_management_app/screens/add_tutorial_screen.dart';
 import 'package:tutorial_management_app/screens/edit_tutorial_screen.dart';
 
 class TutorialListScreen extends StatefulWidget {
+  const TutorialListScreen({super.key});
+
   @override
   _TutorialListScreenState createState() => _TutorialListScreenState();
 }
@@ -93,7 +95,7 @@ class _TutorialListScreenState extends State<TutorialListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tutorial Management'),
+        title: const Text('Tutorial Management'),
         actions: [
           IconButton(
             icon: Icon(_showPublishedOnly ? Icons.visibility : Icons.visibility_off),
@@ -101,7 +103,7 @@ class _TutorialListScreenState extends State<TutorialListScreen> {
             tooltip: _showPublishedOnly ? 'Show All' : 'Show Published Only',
           ),
           IconButton(
-            icon: Icon(Icons.refresh),
+            icon: const Icon(Icons.refresh),
             onPressed: _loadTutorials,
           ),
         ],
@@ -110,18 +112,18 @@ class _TutorialListScreenState extends State<TutorialListScreen> {
         children: [
           // Search bar
           Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
                 hintText: 'Search tutorials...',
-                prefixIcon: Icon(Icons.search),
+                prefixIcon: const Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
                 suffixIcon: _searchController.text.isNotEmpty
                     ? IconButton(
-                        icon: Icon(Icons.clear),
+                        icon: const Icon(Icons.clear),
                         onPressed: () {
                           _searchController.clear();
                         },
@@ -133,19 +135,19 @@ class _TutorialListScreenState extends State<TutorialListScreen> {
           // Content
           Expanded(
             child: _isLoading
-                ? Center(child: CircularProgressIndicator())
+                ? const Center(child: CircularProgressIndicator())
                 : _error.isNotEmpty
                     ? Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.error_outline, size: 64, color: Colors.red),
-                            SizedBox(height: 16),
+                            const Icon(Icons.error_outline, size: 64, color: Colors.red),
+                            const SizedBox(height: 16),
                             Text('Error: $_error', textAlign: TextAlign.center),
-                            SizedBox(height: 16),
+                            const SizedBox(height: 16),
                             ElevatedButton(
                               onPressed: _loadTutorials,
-                              child: Text('Retry'),
+                              child: const Text('Retry'),
                             ),
                           ],
                         ),
@@ -155,8 +157,8 @@ class _TutorialListScreenState extends State<TutorialListScreen> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(Icons.school_outlined, size: 64, color: Colors.grey),
-                                SizedBox(height: 16),
+                                const Icon(Icons.school_outlined, size: 64, color: Colors.grey),
+                                const SizedBox(height: 16),
                                 Text(
                                   _tutorials.isEmpty 
                                       ? 'No tutorials available.\nTap + to add your first tutorial!'
@@ -168,7 +170,7 @@ class _TutorialListScreenState extends State<TutorialListScreen> {
                             ),
                           )
                         : ListView.builder(
-                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
                             itemCount: _filteredTutorials.length,
                             itemBuilder: (context, index) {
                               return _buildTutorialCard(_filteredTutorials[index]);
@@ -181,21 +183,21 @@ class _TutorialListScreenState extends State<TutorialListScreen> {
         onPressed: () async {
           final result = await Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AddTutorialScreen()),
+            MaterialPageRoute(builder: (context) => const AddTutorialScreen()),
           );
           if (result != null) {
             _loadTutorials();
           }
         },
-        child: Icon(Icons.add),
         tooltip: 'Add Tutorial',
+        child: Icon(Icons.add),
       ),
     );
   }
 
   Widget _buildTutorialCard(Tutorial tutorial) {
     return Card(
-      margin: EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsets.only(bottom: 12),
       child: InkWell(
         onTap: () async {
           final result = await Navigator.push(
@@ -210,7 +212,7 @@ class _TutorialListScreenState extends State<TutorialListScreen> {
         },
         borderRadius: BorderRadius.circular(8),
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -219,7 +221,7 @@ class _TutorialListScreenState extends State<TutorialListScreen> {
                   Expanded(
                     child: Text(
                       tutorial.title,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
@@ -227,12 +229,12 @@ class _TutorialListScreenState extends State<TutorialListScreen> {
                   ),
                   if (tutorial.featured)
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
                         color: Colors.orange,
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: Text(
+                      child: const Text(
                         'FEATURED',
                         style: TextStyle(
                           color: Colors.white,
@@ -241,25 +243,25 @@ class _TutorialListScreenState extends State<TutorialListScreen> {
                         ),
                       ),
                     ),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       color: tutorial.published ? Colors.green : Colors.grey,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
                       tutorial.published ? 'PUBLISHED' : 'DRAFT',
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 10,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   IconButton(
-                    icon: Icon(Icons.edit, size: 20),
+                    icon: const Icon(Icons.edit, size: 20),
                     onPressed: () async {
                       final result = await Navigator.push(
                         context,
@@ -272,12 +274,12 @@ class _TutorialListScreenState extends State<TutorialListScreen> {
                       }
                     },
                     tooltip: 'Edit Tutorial',
-                    padding: EdgeInsets.all(4),
-                    constraints: BoxConstraints(minWidth: 32, minHeight: 32),
+                    padding: const EdgeInsets.all(4),
+                    constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
                   ),
                 ],
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(
                 tutorial.description,
                 maxLines: 2,
@@ -287,30 +289,30 @@ class _TutorialListScreenState extends State<TutorialListScreen> {
                   fontSize: 14,
                 ),
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               Row(
                 children: [
                   if (tutorial.category != null) ...[
                     Icon(Icons.category, size: 16, color: Colors.grey[600]),
-                    SizedBox(width: 4),
+                    const SizedBox(width: 4),
                     Text(
                       tutorial.category!,
                       style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                     ),
-                    SizedBox(width: 16),
+                    const SizedBox(width: 16),
                   ],
                   if (tutorial.author != null) ...[
                     Icon(Icons.person, size: 16, color: Colors.grey[600]),
-                    SizedBox(width: 4),
+                    const SizedBox(width: 4),
                     Text(
                       tutorial.author!,
                       style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                     ),
-                    SizedBox(width: 16),
+                    const SizedBox(width: 16),
                   ],
                   if (tutorial.durationMinutes != null) ...[
                     Icon(Icons.access_time, size: 16, color: Colors.grey[600]),
-                    SizedBox(width: 4),
+                    const SizedBox(width: 4),
                     Text(
                       '${tutorial.durationMinutes} min',
                       style: TextStyle(fontSize: 12, color: Colors.grey[600]),

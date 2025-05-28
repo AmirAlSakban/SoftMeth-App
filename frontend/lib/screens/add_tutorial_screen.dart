@@ -3,7 +3,7 @@ import '../models/tutorial.dart';
 import '../services/api_service.dart';
 
 class AddTutorialScreen extends StatefulWidget {
-  const AddTutorialScreen({Key? key}) : super(key: key);
+  const AddTutorialScreen({super.key});
 
   @override
   State<AddTutorialScreen> createState() => _AddTutorialScreenState();
@@ -65,8 +65,9 @@ class _AddTutorialScreenState extends State<AddTutorialScreen> {
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
       );
-
-      final createdTutorial = await ApiService.createTutorial(tutorial);
+      
+      final apiService = ApiService();
+      final createdTutorial = await apiService.createTutorial(tutorial);
       
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -298,7 +299,8 @@ class _AddTutorialScreenState extends State<AddTutorialScreen> {
                         ),
                         validator: (value) {
                           if (value != null && value.isNotEmpty) {
-                            if (!Uri.tryParse(value)?.hasAbsolutePath == true) {
+                            final uri = Uri.tryParse(value);
+                            if (uri == null || !uri.hasScheme) {
                               return 'Enter a valid URL';
                             }
                           }
@@ -315,7 +317,8 @@ class _AddTutorialScreenState extends State<AddTutorialScreen> {
                         ),
                         validator: (value) {
                           if (value != null && value.isNotEmpty) {
-                            if (!Uri.tryParse(value)?.hasAbsolutePath == true) {
+                            final uri = Uri.tryParse(value);
+                            if (uri == null || !uri.hasScheme) {
                               return 'Enter a valid URL';
                             }
                           }

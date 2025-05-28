@@ -9,12 +9,12 @@ class TutorialCard extends StatelessWidget {
   final Function? onDelete;
 
   const TutorialCard({
-    Key? key,
+    super.key,
     required this.tutorial,
     required this.onTap,
     this.onEdit,
     this.onDelete,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class TutorialCard extends StatelessWidget {
           width: tutorial.featured ? 2 : 0,
         ),
       ),
-      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       child: InkWell(
         onTap: () => onTap(),
         borderRadius: BorderRadius.circular(12),
@@ -48,7 +48,7 @@ class TutorialCard extends StatelessWidget {
           children: [
             // Tutorial Image or Header
             ClipRRect(
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(12),
                 topRight: Radius.circular(12),
               ),
@@ -69,13 +69,13 @@ class TutorialCard extends StatelessWidget {
             
             // Title and badges
             Padding(
-              padding: EdgeInsets.fromLTRB(16, 12, 16, 8),
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
               child: Row(
                 children: [
                   Expanded(
                     child: Text(
                       tutorial.title,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
@@ -85,7 +85,7 @@ class TutorialCard extends StatelessWidget {
                   ),
                   if (tutorial.featured)
                     _buildBadge('Featured', Colors.amber),
-                  SizedBox(width: 4),
+                  const SizedBox(width: 4),
                   if (tutorial.published)
                     _buildBadge('Published', Colors.green)
                   else
@@ -96,7 +96,7 @@ class TutorialCard extends StatelessWidget {
             
             // Description
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
                 tutorial.description,
                 style: TextStyle(
@@ -110,23 +110,23 @@ class TutorialCard extends StatelessWidget {
             
             // Metadata
             Padding(
-              padding: EdgeInsets.fromLTRB(16, 8, 16, 4),
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
               child: Row(
                 children: [
                   if (tutorial.category != null && tutorial.category!.isNotEmpty)
                     Chip(
                       label: Text(
                         tutorial.category!,
-                        style: TextStyle(fontSize: 12),
+                        style: const TextStyle(fontSize: 12),
                       ),
                       backgroundColor: Colors.grey[200],
                       padding: EdgeInsets.zero,
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
-                  Spacer(),
+                  const Spacer(),
                   if (tutorial.difficultyLevel != null)
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
                         color: difficultyColor.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(4),
@@ -141,12 +141,12 @@ class TutorialCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   if (tutorial.durationMinutes != null)
                     Row(
                       children: [
                         Icon(Icons.access_time, size: 14, color: Colors.grey[600]),
-                        SizedBox(width: 4),
+                        const SizedBox(width: 4),
                         Text(
                           '${tutorial.durationMinutes} min',
                           style: TextStyle(
@@ -162,14 +162,14 @@ class TutorialCard extends StatelessWidget {
             
             // Author and date
             Padding(
-              padding: EdgeInsets.fromLTRB(16, 4, 16, 12),
+              padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
               child: Row(
                 children: [
                   if (tutorial.author != null && tutorial.author!.isNotEmpty)
                     Row(
                       children: [
                         Icon(Icons.person, size: 14, color: Colors.grey[600]),
-                        SizedBox(width: 4),
+                        const SizedBox(width: 4),
                         Text(
                           tutorial.author!,
                           style: TextStyle(
@@ -180,7 +180,7 @@ class TutorialCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                  Spacer(),
+                  const Spacer(),
                   Text(
                     'Updated: $formattedDate',
                     style: TextStyle(
@@ -194,23 +194,23 @@ class TutorialCard extends StatelessWidget {
             
             // Actions
             if (onEdit != null || onDelete != null)
-              Divider(height: 1),
+              const Divider(height: 1),
               
             if (onEdit != null || onDelete != null)
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     if (onEdit != null)
                       IconButton(
-                        icon: Icon(Icons.edit, color: Colors.blue),
+                        icon: const Icon(Icons.edit, color: Colors.blue),
                         onPressed: () => onEdit!(),
                         tooltip: 'Edit Tutorial',
                       ),
                     if (onDelete != null)
                       IconButton(
-                        icon: Icon(Icons.delete, color: Colors.red),
+                        icon: const Icon(Icons.delete, color: Colors.red),
                         onPressed: () => onDelete!(),
                         tooltip: 'Delete Tutorial',
                       ),
@@ -238,7 +238,7 @@ class TutorialCard extends StatelessWidget {
 
   Widget _buildBadge(String text, Color color) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
         color: color.withOpacity(0.2),
         borderRadius: BorderRadius.circular(12),

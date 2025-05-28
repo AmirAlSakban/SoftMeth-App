@@ -7,11 +7,11 @@ class DashboardHeader extends StatelessWidget {
   final bool isLoading;
 
   const DashboardHeader({
-    Key? key,
+    super.key,
     required this.tutorials,
     required this.onAdd,
     this.isLoading = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +57,7 @@ class DashboardHeader extends StatelessWidget {
                       color: Colors.blue[800],
                     ),
                   ),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Text(
                     'Manage your educational content',
                     style: TextStyle(
@@ -67,13 +67,13 @@ class DashboardHeader extends StatelessWidget {
                   ),
                 ],
               ),
-              Spacer(),
+              const Spacer(),
               ElevatedButton.icon(
-                icon: Icon(Icons.add),
-                label: Text('New Tutorial'),
+                icon: const Icon(Icons.add),
+                label: const Text('New Tutorial'),
                 onPressed: () => onAdd(),
                 style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 ),
               ),
             ],
@@ -85,7 +85,7 @@ class DashboardHeader extends StatelessWidget {
           _buildLoadingStats()
         else
           Padding(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
@@ -120,7 +120,7 @@ class DashboardHeader extends StatelessWidget {
           ),
           
         // Filter section
-        Padding(
+        const Padding(
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Text(
             'All Tutorials',
@@ -137,8 +137,8 @@ class DashboardHeader extends StatelessWidget {
   Widget _buildStatCard(String title, String value, IconData icon, Color color) {
     return Container(
       width: 160,
-      margin: EdgeInsets.symmetric(horizontal: 8),
-      padding: EdgeInsets.all(16),
+      margin: const EdgeInsets.symmetric(horizontal: 8),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -147,7 +147,7 @@ class DashboardHeader extends StatelessWidget {
             color: Colors.black.withOpacity(0.05),
             blurRadius: 10,
             spreadRadius: 0,
-            offset: Offset(0, 2),
+            offset: const Offset(0, 2),
           ),
         ],
         border: Border.all(color: color.withOpacity(0.3), width: 1),
@@ -158,7 +158,7 @@ class DashboardHeader extends StatelessWidget {
           Row(
             children: [
               Container(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   color: color.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(8),
@@ -169,24 +169,24 @@ class DashboardHeader extends StatelessWidget {
                   size: 20,
                 ),
               ),
-              Spacer(),
-              Icon(
+              const Spacer(),
+              const Icon(
                 Icons.more_horiz,
                 color: Colors.grey,
                 size: 18,
               ),
             ],
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Text(
             value,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
               color: Colors.black87,
             ),
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           Text(
             title,
             style: TextStyle(
@@ -201,7 +201,7 @@ class DashboardHeader extends StatelessWidget {
   
   Widget _buildLoadingStats() {
     return Padding(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
@@ -210,7 +210,7 @@ class DashboardHeader extends StatelessWidget {
             (index) => Container(
               width: 160,
               height: 120,
-              margin: EdgeInsets.symmetric(horizontal: 8),
+              margin: const EdgeInsets.symmetric(horizontal: 8),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
@@ -222,7 +222,7 @@ class DashboardHeader extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Center(
+              child: const Center(
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
                 ),

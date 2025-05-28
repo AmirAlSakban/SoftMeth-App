@@ -42,3 +42,10 @@ logs/
 
 ### Temporary diagram files ###
 *_fixed.puml
+
+### Maven build artifacts ###
+*.jar.original
+dependency-reduced-pom.xml
+maven-archiver/
+maven-status/
+surefire-reports/

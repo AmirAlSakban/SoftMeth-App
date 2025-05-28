@@ -11,10 +11,10 @@ class TutorialDetailScreen extends StatefulWidget {
   final int initialTab;
 
   const TutorialDetailScreen({
-    Key? key, 
+    super.key, 
     required this.tutorial,
     this.initialTab = 0,
-  }) : super(key: key);
+  });
 
   @override
   _TutorialDetailScreenState createState() => _TutorialDetailScreenState();
@@ -37,17 +37,17 @@ class _TutorialDetailScreenState extends State<TutorialDetailScreen> {
     final bool confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Delete Tutorial'),
+        title: const Text('Delete Tutorial'),
         content: Text('Are you sure you want to delete "${_tutorial.title}"? This action cannot be undone.'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: Text('CANCEL'),
+            child: const Text('CANCEL'),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(context, true),
-            child: Text('DELETE'),
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            child: Text('DELETE'),
           ),
         ],
       ),
@@ -211,7 +211,7 @@ class _TutorialDetailScreenState extends State<TutorialDetailScreen> {
       initialIndex: widget.initialTab,
       child: Scaffold(
         body: _isLoading
-            ? LoadingIndicator(isFullScreen: true)
+            ? const LoadingIndicator(isFullScreen: true)
             : CustomScrollView(
                 slivers: [
                   // App Bar
@@ -228,7 +228,7 @@ class _TutorialDetailScreenState extends State<TutorialDetailScreen> {
                             )
                           : _buildPlaceholderImage(),
                     ),
-                    bottom: TabBar(
+                    bottom: const TabBar(
                       tabs: [
                         Tab(text: 'Details', icon: Icon(Icons.info_outline)),
                         Tab(text: 'Edit', icon: Icon(Icons.edit)),
@@ -282,43 +282,43 @@ class _TutorialDetailScreenState extends State<TutorialDetailScreen> {
     final dateFormat = DateFormat('MMM d, yyyy h:mm a');
     
     return SingleChildScrollView(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Description
-          Text(
+          const Text(
             'Description',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(
             _tutorial.description,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
             ),
           ),
-          SizedBox(height: 24),
+          const SizedBox(height: 24),
           
           // Metadata Card
           Card(
             elevation: 2,
             child: Padding(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Tutorial Details',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   _buildDetailRow('Category', _tutorial.category),
                   _buildDetailRow('Author', _tutorial.author),
                   _buildDetailRow('Difficulty Level', _tutorial.difficultyLevel),
@@ -331,15 +331,15 @@ class _TutorialDetailScreenState extends State<TutorialDetailScreen> {
               ),
             ),
           ),
-          SizedBox(height: 24),
+          const SizedBox(height: 24),
           
           // Media Links
           if (_tutorial.videoUrl != null && _tutorial.videoUrl!.isNotEmpty) ...[
             ListTile(
-              leading: Icon(Icons.video_library),
-              title: Text('Video Tutorial'),
+              leading: const Icon(Icons.video_library),
+              title: const Text('Video Tutorial'),
               subtitle: Text(_tutorial.videoUrl!),
-              trailing: Icon(Icons.open_in_new),
+              trailing: const Icon(Icons.open_in_new),
               onTap: () => _launchUrl(_tutorial.videoUrl!),
               tileColor: Colors.blue.shade50,
               shape: RoundedRectangleBorder(
@@ -347,20 +347,20 @@ class _TutorialDetailScreenState extends State<TutorialDetailScreen> {
                 side: BorderSide(color: Colors.blue.shade200),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
           ],
           
           // Delete Button
           Center(
             child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 24),
+              padding: const EdgeInsets.symmetric(vertical: 24),
               child: ElevatedButton.icon(
-                icon: Icon(Icons.delete),
-                label: Text('Delete Tutorial'),
+                icon: const Icon(Icons.delete),
+                label: const Text('Delete Tutorial'),
                 onPressed: _deleteTutorial,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red,
-                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 ),
               ),
             ),
@@ -373,24 +373,24 @@ class _TutorialDetailScreenState extends State<TutorialDetailScreen> {
   Widget _buildEditTab() {
     return Center(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
+            const Icon(
               Icons.edit_note,
               size: 64,
               color: Colors.blue,
             ),
-            SizedBox(height: 16),
-            Text(
+            const SizedBox(height: 16),
+            const Text(
               'Edit Tutorial',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               'Update tutorial details, change settings, or modify content.',
               textAlign: TextAlign.center,
@@ -399,13 +399,13 @@ class _TutorialDetailScreenState extends State<TutorialDetailScreen> {
                 color: Colors.grey[600],
               ),
             ),
-            SizedBox(height: 32),
+            const SizedBox(height: 32),
             ElevatedButton.icon(
-              icon: Icon(Icons.edit),
-              label: Text('Edit Tutorial'),
+              icon: const Icon(Icons.edit),
+              label: const Text('Edit Tutorial'),
               onPressed: _editTutorial,
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
               ),
             ),
           ],
@@ -416,7 +416,7 @@ class _TutorialDetailScreenState extends State<TutorialDetailScreen> {
   
   Widget _buildDetailRow(String label, String? value, [Color? valueColor]) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

@@ -5,7 +5,7 @@ import '../services/api_service.dart';
 class EditTutorialScreen extends StatefulWidget {
   final Tutorial tutorial;
 
-  const EditTutorialScreen({Key? key, required this.tutorial}) : super(key: key);
+  const EditTutorialScreen({super.key, required this.tutorial});
 
   @override
   State<EditTutorialScreen> createState() => _EditTutorialScreenState();
@@ -37,9 +37,9 @@ class _EditTutorialScreenState extends State<EditTutorialScreen> {
   void _populateFields() {
     _titleController.text = widget.tutorial.title;
     _descriptionController.text = widget.tutorial.description;
-    _categoryController.text = widget.tutorial.category;
-    _authorController.text = widget.tutorial.author;
-    _selectedDifficulty = widget.tutorial.difficultyLevel;
+    _categoryController.text = widget.tutorial.category ?? '';
+    _authorController.text = widget.tutorial.author ?? '';
+    _selectedDifficulty = widget.tutorial.difficultyLevel ?? 'Beginner';
     _durationController.text = widget.tutorial.durationMinutes.toString();
     _imageUrlController.text = widget.tutorial.imageUrl ?? '';
     _videoUrlController.text = widget.tutorial.videoUrl ?? '';
@@ -85,7 +85,8 @@ class _EditTutorialScreenState extends State<EditTutorialScreen> {
         updatedAt: DateTime.now(),
       );
 
-      final savedTutorial = await ApiService.updateTutorial(widget.tutorial.id, updatedTutorial);
+      final apiService = ApiService();
+      final savedTutorial = await apiService.updateTutorial(widget.tutorial.id!, updatedTutorial);
       
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -142,9 +143,9 @@ class _EditTutorialScreenState extends State<EditTutorialScreen> {
       setState(() {
         _isLoading = true;
       });
-
       try {
-        await ApiService.deleteTutorial(widget.tutorial.id);
+        final apiService = ApiService();
+        await apiService.deleteTutorial(widget.tutorial.id!);
         
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -382,7 +383,8 @@ class _EditTutorialScreenState extends State<EditTutorialScreen> {
                         ),
                         validator: (value) {
                           if (value != null && value.isNotEmpty) {
-                            if (!Uri.tryParse(value)?.hasAbsolutePath == true) {
+                            final uri = Uri.tryParse(value);
+                            if (uri == null || !uri.hasScheme) {
                               return 'Enter a valid URL';
                             }
                           }
@@ -399,7 +401,8 @@ class _EditTutorialScreenState extends State<EditTutorialScreen> {
                         ),
                         validator: (value) {
                           if (value != null && value.isNotEmpty) {
-                            if (!Uri.tryParse(value)?.hasAbsolutePath == true) {
+                            final uri = Uri.tryParse(value);
+                            if (uri == null || !uri.hasScheme) {
                               return 'Enter a valid URL';
                             }
                           }

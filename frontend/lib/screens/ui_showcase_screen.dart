@@ -10,6 +10,8 @@ import 'package:tutorial_management_app/widgets/tutorial_content_editor.dart';
 import 'package:tutorial_management_app/widgets/statistics_widget.dart';
 
 class UIShowcaseScreen extends StatefulWidget {
+  const UIShowcaseScreen({super.key});
+
   @override
   _UIShowcaseScreenState createState() => _UIShowcaseScreenState();
 }
@@ -32,8 +34,8 @@ class _UIShowcaseScreenState extends State<UIShowcaseScreen> {
       featured: true,
       imageUrl: 'https://picsum.photos/seed/flutter1/800/600',
       videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-      createdAt: DateTime.now().subtract(Duration(days: 30)),
-      updatedAt: DateTime.now().subtract(Duration(days: 2)),
+      createdAt: DateTime.now().subtract(const Duration(days: 30)),
+      updatedAt: DateTime.now().subtract(const Duration(days: 2)),
     ),
     Tutorial(
       id: 2,
@@ -46,8 +48,8 @@ class _UIShowcaseScreenState extends State<UIShowcaseScreen> {
       published: true,
       featured: false,
       imageUrl: 'https://picsum.photos/seed/flutter2/800/600',
-      createdAt: DateTime.now().subtract(Duration(days: 20)),
-      updatedAt: DateTime.now().subtract(Duration(days: 1)),
+      createdAt: DateTime.now().subtract(const Duration(days: 20)),
+      updatedAt: DateTime.now().subtract(const Duration(days: 1)),
     ),
     Tutorial(
       id: 3,
@@ -61,8 +63,8 @@ class _UIShowcaseScreenState extends State<UIShowcaseScreen> {
       featured: true,
       imageUrl: 'https://picsum.photos/seed/spring1/800/600',
       videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-      createdAt: DateTime.now().subtract(Duration(days: 15)),
-      updatedAt: DateTime.now().subtract(Duration(days: 3)),
+      createdAt: DateTime.now().subtract(const Duration(days: 15)),
+      updatedAt: DateTime.now().subtract(const Duration(days: 3)),
     ),
     Tutorial(
       id: 4,
@@ -75,8 +77,8 @@ class _UIShowcaseScreenState extends State<UIShowcaseScreen> {
       published: true,
       featured: false,
       imageUrl: 'https://picsum.photos/seed/react1/800/600',
-      createdAt: DateTime.now().subtract(Duration(days: 10)),
-      updatedAt: DateTime.now().subtract(Duration(days: 5)),
+      createdAt: DateTime.now().subtract(const Duration(days: 10)),
+      updatedAt: DateTime.now().subtract(const Duration(days: 5)),
     ),
     Tutorial(
       id: 5,
@@ -89,8 +91,8 @@ class _UIShowcaseScreenState extends State<UIShowcaseScreen> {
       published: false,
       featured: false,
       imageUrl: 'https://picsum.photos/seed/ml1/800/600',
-      createdAt: DateTime.now().subtract(Duration(days: 8)),
-      updatedAt: DateTime.now().subtract(Duration(days: 8)),
+      createdAt: DateTime.now().subtract(const Duration(days: 8)),
+      updatedAt: DateTime.now().subtract(const Duration(days: 8)),
     ),
     Tutorial(
       id: 6,
@@ -103,8 +105,8 @@ class _UIShowcaseScreenState extends State<UIShowcaseScreen> {
       published: true,
       featured: false,
       imageUrl: 'https://picsum.photos/seed/docker1/800/600',
-      createdAt: DateTime.now().subtract(Duration(days: 5)),
-      updatedAt: DateTime.now().subtract(Duration(days: 1)),
+      createdAt: DateTime.now().subtract(const Duration(days: 5)),
+      updatedAt: DateTime.now().subtract(const Duration(days: 1)),
     ),
     Tutorial(
       id: 7,
@@ -118,8 +120,8 @@ class _UIShowcaseScreenState extends State<UIShowcaseScreen> {
       featured: true,
       imageUrl: 'https://picsum.photos/seed/css1/800/600',
       videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-      createdAt: DateTime.now().subtract(Duration(days: 3)),
-      updatedAt: DateTime.now().subtract(Duration(days: 0)),
+      createdAt: DateTime.now().subtract(const Duration(days: 3)),
+      updatedAt: DateTime.now().subtract(const Duration(days: 0)),
     ),
   ];
   
@@ -130,14 +132,14 @@ class _UIShowcaseScreenState extends State<UIShowcaseScreen> {
       authorName: 'Alex Johnson',
       authorAvatar: 'https://picsum.photos/seed/alex1/100/100',
       content: 'This tutorial was incredibly helpful! I finally understand how to implement this feature in my project.',
-      createdAt: DateTime.now().subtract(Duration(days: 3, hours: 5)),
+      createdAt: DateTime.now().subtract(const Duration(days: 3, hours: 5)),
       replies: [
         Comment(
           id: '1-1',
           authorName: 'Tutorial Author',
           authorAvatar: 'https://picsum.photos/seed/author1/100/100',
           content: 'Thanks Alex! I\'m glad you found it useful. Let me know if you have any questions.',
-          createdAt: DateTime.now().subtract(Duration(days: 3, hours: 2)),
+          createdAt: DateTime.now().subtract(const Duration(days: 3, hours: 2)),
         ),
       ],
     ),
@@ -146,7 +148,7 @@ class _UIShowcaseScreenState extends State<UIShowcaseScreen> {
       authorName: 'Maria Garcia',
       authorAvatar: 'https://picsum.photos/seed/maria1/100/100',
       content: 'The explanation on state management was clear, but I\'m still having issues with the provider implementation. Can you provide more examples?',
-      createdAt: DateTime.now().subtract(Duration(days: 2, hours: 8)),
+      createdAt: DateTime.now().subtract(const Duration(days: 2, hours: 8)),
       replies: [],
     ),
     Comment(
@@ -154,14 +156,14 @@ class _UIShowcaseScreenState extends State<UIShowcaseScreen> {
       authorName: 'Daniel Kim',
       authorAvatar: 'https://picsum.photos/seed/daniel1/100/100',
       content: 'Great tutorial! I noticed a small typo in the code snippet for the API call function.',
-      createdAt: DateTime.now().subtract(Duration(hours: 12)),
+      createdAt: DateTime.now().subtract(const Duration(hours: 12)),
       replies: [
         Comment(
           id: '3-1',
           authorName: 'Tutorial Author',
           authorAvatar: 'https://picsum.photos/seed/author1/100/100',
           content: 'Good catch, Daniel! I\'ve fixed it in the latest update. Thanks for pointing it out.',
-          createdAt: DateTime.now().subtract(Duration(hours: 6)),
+          createdAt: DateTime.now().subtract(const Duration(hours: 6)),
         ),
       ],
     ),
@@ -175,7 +177,7 @@ class _UIShowcaseScreenState extends State<UIShowcaseScreen> {
     _screens.addAll([
       TutorialListScreen(), // Enhanced list screen
       AnalyticsDashboardScreen(tutorials: _sampleTutorials), // Analytics dashboard
-      AddTutorialScreen(), // Enhanced create screen
+      const AddTutorialScreen(), // Enhanced create screen
       TutorialDetailScreen(tutorial: _sampleTutorials[0]), // Enhanced detail screen
       _buildWidgetsShowcase(), // Widgets showcase
     ]);
@@ -192,7 +194,7 @@ class _UIShowcaseScreenState extends State<UIShowcaseScreen> {
             _currentIndex = index;
           });
         },
-        destinations: [
+        destinations: const [
           NavigationDestination(
             icon: Icon(Icons.list),
             label: 'Tutorials',
@@ -221,15 +223,15 @@ class _UIShowcaseScreenState extends State<UIShowcaseScreen> {
   Widget _buildWidgetsShowcase() {
     return Scaffold(
       appBar: AppBar(
-        title: Text('UI Components'),
+        title: const Text('UI Components'),
         elevation: 0,
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'UI Components Showcase',
               style: TextStyle(
                 fontSize: 24,
@@ -237,11 +239,11 @@ class _UIShowcaseScreenState extends State<UIShowcaseScreen> {
                 color: AppTheme.textPrimaryColor,
               ),
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             
             // Statistics Widget
             _buildSectionHeader('Statistics Widget'),
-            StatisticsWidget(
+            const StatisticsWidget(
               title: 'Tutorial Difficulty Distribution',
               data: {
                 'Beginner': 12,
@@ -250,7 +252,7 @@ class _UIShowcaseScreenState extends State<UIShowcaseScreen> {
               },
               showChart: true,
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             
             // Comments Section
             _buildSectionHeader('Comments Section'),
@@ -269,15 +271,15 @@ class _UIShowcaseScreenState extends State<UIShowcaseScreen> {
                 );
               },
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             
             // Content Editor
             _buildSectionHeader('Content Editor'),
-            TutorialContentEditor(
+            const TutorialContentEditor(
               initialValue: '# Tutorial Content Example\n\nThis is a **rich text editor** that supports markdown-like formatting.\n\n## Key Features\n\n- Easy to use\n- Formatting support\n- Live preview',
               hintText: 'Write your tutorial content here...',
             ),
-            SizedBox(height: 32),
+            const SizedBox(height: 32),
           ],
         ),
       ),
@@ -286,19 +288,19 @@ class _UIShowcaseScreenState extends State<UIShowcaseScreen> {
   
   Widget _buildSectionHeader(String title) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.only(bottom: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
               color: AppTheme.primaryColor,
             ),
           ),
-          Divider(),
+          const Divider(),
         ],
       ),
     );

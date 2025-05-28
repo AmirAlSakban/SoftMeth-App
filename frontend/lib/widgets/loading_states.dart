@@ -5,10 +5,10 @@ class LoadingIndicator extends StatelessWidget {
   final bool isFullScreen;
 
   const LoadingIndicator({
-    Key? key,
+    super.key,
     this.message = 'Loading...',
     this.isFullScreen = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class LoadingIndicator extends StatelessWidget {
         CircularProgressIndicator(
           valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[700]!),
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Text(
           message,
           style: TextStyle(
@@ -40,7 +40,7 @@ class LoadingIndicator extends StatelessWidget {
       );
     } else {
       return Container(
-        padding: EdgeInsets.symmetric(vertical: 32),
+        padding: const EdgeInsets.symmetric(vertical: 32),
         child: Center(child: content),
       );
     }
@@ -54,23 +54,23 @@ class EmptyStateWidget extends StatelessWidget {
   final VoidCallback? onAction;
 
   const EmptyStateWidget({
-    Key? key,
+    super.key,
     required this.message,
     this.icon = Icons.info_outline,
     this.actionLabel,
     this.onAction,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(32),
+      padding: const EdgeInsets.all(32),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: EdgeInsets.all(24),
+              padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
                 color: Colors.grey[100],
                 shape: BoxShape.circle,
@@ -81,7 +81,7 @@ class EmptyStateWidget extends StatelessWidget {
                 color: Colors.grey[400],
               ),
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             Text(
               message,
               style: TextStyle(
@@ -96,10 +96,10 @@ class EmptyStateWidget extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 24),
                 child: ElevatedButton(
                   onPressed: onAction,
-                  child: Text(actionLabel!),
                   style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                   ),
+                  child: Text(actionLabel!),
                 ),
               ),
           ],
@@ -115,22 +115,22 @@ class ErrorStateWidget extends StatelessWidget {
   final VoidCallback? onAction;
 
   const ErrorStateWidget({
-    Key? key,
+    super.key,
     required this.message,
     this.actionLabel = 'Retry',
     this.onAction,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(32),
+      padding: const EdgeInsets.all(32),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: EdgeInsets.all(24),
+              padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
                 color: Colors.red[50],
                 shape: BoxShape.circle,
@@ -141,7 +141,7 @@ class ErrorStateWidget extends StatelessWidget {
                 color: Colors.red[300],
               ),
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             Text(
               'Error',
               style: TextStyle(
@@ -150,7 +150,7 @@ class ErrorStateWidget extends StatelessWidget {
                 color: Colors.red[700],
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               message,
               style: TextStyle(
@@ -163,12 +163,12 @@ class ErrorStateWidget extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 24),
                 child: ElevatedButton.icon(
-                  icon: Icon(Icons.refresh),
+                  icon: const Icon(Icons.refresh),
                   onPressed: onAction,
                   label: Text(actionLabel!),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red[700],
-                    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                   ),
                 ),
               ),

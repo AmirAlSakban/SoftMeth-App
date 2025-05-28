@@ -29,14 +29,14 @@ class AppTheme {
     return ThemeData(
       primaryColor: primaryColor,
       scaffoldBackgroundColor: scaffoldBackgroundColor,
-      colorScheme: ColorScheme.light(
+      colorScheme: const ColorScheme.light(
         primary: primaryColor,
         secondary: secondaryColor,
         error: errorColor,
       ),
       
       // AppBar Theme
-      appBarTheme: AppBarTheme(
+      appBarTheme: const AppBarTheme(
         backgroundColor: primaryColor,
         foregroundColor: Colors.white,
         elevation: 0,
@@ -55,7 +55,7 @@ class AppTheme {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
-        margin: EdgeInsets.symmetric(vertical: 8, horizontal: 0),
+        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
       ),
       
       // Button Themes
@@ -64,11 +64,11 @@ class AppTheme {
           backgroundColor: primaryColor,
           foregroundColor: Colors.white,
           elevation: 0,
-          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),
-          textStyle: TextStyle(
+          textStyle: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,
             letterSpacing: 0.5,
@@ -79,12 +79,12 @@ class AppTheme {
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: primaryColor,
-          side: BorderSide(color: primaryColor, width: 1.5),
-          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+          side: const BorderSide(color: primaryColor, width: 1.5),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),
-          textStyle: TextStyle(
+          textStyle: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,
             letterSpacing: 0.5,
@@ -95,8 +95,8 @@ class AppTheme {
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: primaryColor,
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          textStyle: TextStyle(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          textStyle: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,
             letterSpacing: 0.5,
@@ -108,7 +108,7 @@ class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: inputBackgroundColor,
-        contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+        contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide.none,
@@ -119,21 +119,21 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: primaryColor, width: 2),
+          borderSide: const BorderSide(color: primaryColor, width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: errorColor, width: 1),
+          borderSide: const BorderSide(color: errorColor, width: 1),
         ),
-        errorStyle: TextStyle(
+        errorStyle: const TextStyle(
           color: errorColor,
           fontSize: 12,
         ),
-        labelStyle: TextStyle(
+        labelStyle: const TextStyle(
           color: textSecondaryColor,
           fontSize: 16,
         ),
-        hintStyle: TextStyle(
+        hintStyle: const TextStyle(
           color: textTertiaryColor,
           fontSize: 16,
         ),
@@ -145,12 +145,12 @@ class AppTheme {
         disabledColor: Colors.grey[200],
         selectedColor: primaryColor,
         secondarySelectedColor: primaryColor,
-        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        labelStyle: TextStyle(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        labelStyle: const TextStyle(
           color: textPrimaryColor,
           fontSize: 14,
         ),
-        secondaryLabelStyle: TextStyle(
+        secondaryLabelStyle: const TextStyle(
           color: Colors.white,
           fontSize: 14,
         ),
@@ -161,14 +161,14 @@ class AppTheme {
       ),
       
       // Divider Theme
-      dividerTheme: DividerThemeData(
+      dividerTheme: const DividerThemeData(
         color: dividerColor,
         thickness: 1,
         space: 1,
       ),
       
       // Typography
-      textTheme: TextTheme(
+      textTheme: const TextTheme(
         displayLarge: TextStyle(
           fontSize: 32,
           fontWeight: FontWeight.bold,
@@ -216,36 +216,36 @@ class AppTheme {
   }
   
   // Text styles for common usage
-  static TextStyle get headingStyle => TextStyle(
+  static TextStyle get headingStyle => const TextStyle(
     fontSize: 24, 
     fontWeight: FontWeight.bold, 
     color: textPrimaryColor,
   );
   
-  static TextStyle get subheadingStyle => TextStyle(
+  static TextStyle get subheadingStyle => const TextStyle(
     fontSize: 18, 
     fontWeight: FontWeight.w600, 
     color: textPrimaryColor,
   );
   
-  static TextStyle get titleStyle => TextStyle(
+  static TextStyle get titleStyle => const TextStyle(
     fontSize: 16, 
     fontWeight: FontWeight.w600, 
     color: textPrimaryColor,
   );
   
-  static TextStyle get subtitleStyle => TextStyle(
+  static TextStyle get subtitleStyle => const TextStyle(
     fontSize: 14, 
     fontWeight: FontWeight.w500, 
     color: textSecondaryColor,
   );
   
-  static TextStyle get bodyStyle => TextStyle(
+  static TextStyle get bodyStyle => const TextStyle(
     fontSize: 14, 
     color: textPrimaryColor,
   );
   
-  static TextStyle get captionStyle => TextStyle(
+  static TextStyle get captionStyle => const TextStyle(
     fontSize: 12, 
     color: textSecondaryColor,
   );
